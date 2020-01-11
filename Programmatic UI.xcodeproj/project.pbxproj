@@ -1,0 +1,411 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		05229FE123BEFB2200F04D5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05229FE023BEFB2200F04D5E /* AppDelegate.swift */; };
+		05229FE323BEFB2200F04D5E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05229FE223BEFB2200F04D5E /* SceneDelegate.swift */; };
+		05229FE523BEFB2200F04D5E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05229FE423BEFB2200F04D5E /* MainViewController.swift */; };
+		05229FEA23BEFB2500F04D5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 05229FE923BEFB2500F04D5E /* Assets.xcassets */; };
+		05229FED23BEFB2500F04D5E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05229FEB23BEFB2500F04D5E /* LaunchScreen.storyboard */; };
+		0522A01D23C3F2A400F04D5E /* AvertaDemo-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0522A01B23C3F2A400F04D5E /* AvertaDemo-Regular.otf */; };
+		0522A01E23C3F2A400F04D5E /* AvertaDemo-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0522A01C23C3F2A400F04D5E /* AvertaDemo-ExtraBold.otf */; };
+		0522A02023C3F3E200F04D5E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0522A01F23C3F3E200F04D5E /* Constants.swift */; };
+		053B12A023C406FE0059F648 /* CoreSansG-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 053B129F23C406FD0059F648 /* CoreSansG-Bold.ttf */; };
+		053B12A223C407080059F648 /* CoreSansG-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 053B12A123C407080059F648 /* CoreSansG-Regular.ttf */; };
+		053B12A623C540B80059F648 /* CategoryScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053B12A523C540B80059F648 /* CategoryScrollView.swift */; };
+		053B12A823C5441B0059F648 /* PlantScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053B12A723C5441B0059F648 /* PlantScrollView.swift */; };
+		053B12AA23C544950059F648 /* PlantCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053B12A923C544950059F648 /* PlantCardView.swift */; };
+		058F898523C6D2B100DE8D77 /* Muli-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 058F898323C6D2B100DE8D77 /* Muli-Regular.ttf */; };
+		058F898623C6D2B100DE8D77 /* Muli-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 058F898423C6D2B100DE8D77 /* Muli-Bold.ttf */; };
+		058F898823C6D67900DE8D77 /* Raleway-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 058F898723C6D67900DE8D77 /* Raleway-ExtraBold.ttf */; };
+		058F898A23C6D6E100DE8D77 /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 058F898923C6D6E100DE8D77 /* Raleway-Bold.ttf */; };
+		058F898C23C6D79300DE8D77 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 058F898B23C6D79300DE8D77 /* Montserrat-Bold.ttf */; };
+		058F898E23C6D99500DE8D77 /* Acre-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 058F898D23C6D99500DE8D77 /* Acre-Medium.otf */; };
+		058F899023C6DB3300DE8D77 /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 058F898F23C6DB3300DE8D77 /* Raleway-Regular.ttf */; };
+		058F899223C6DBB000DE8D77 /* Raleway-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 058F899123C6DBB000DE8D77 /* Raleway-Medium.ttf */; };
+		058F899423C6DDFC00DE8D77 /* Campton-BoldDEMO.otf in Resources */ = {isa = PBXBuildFile; fileRef = 058F899323C6DDFC00DE8D77 /* Campton-BoldDEMO.otf */; };
+		058F899623C7B37200DE8D77 /* Plant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058F899523C7B37200DE8D77 /* Plant.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		05229FDD23BEFB2200F04D5E /* Programmatic UI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Programmatic UI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		05229FE023BEFB2200F04D5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		05229FE223BEFB2200F04D5E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		05229FE423BEFB2200F04D5E /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		05229FE923BEFB2500F04D5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		05229FEC23BEFB2500F04D5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		05229FEE23BEFB2500F04D5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0522A01B23C3F2A400F04D5E /* AvertaDemo-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvertaDemo-Regular.otf"; sourceTree = "<group>"; };
+		0522A01C23C3F2A400F04D5E /* AvertaDemo-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvertaDemo-ExtraBold.otf"; sourceTree = "<group>"; };
+		0522A01F23C3F3E200F04D5E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		053B129F23C406FD0059F648 /* CoreSansG-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CoreSansG-Bold.ttf"; sourceTree = "<group>"; };
+		053B12A123C407080059F648 /* CoreSansG-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CoreSansG-Regular.ttf"; sourceTree = "<group>"; };
+		053B12A523C540B80059F648 /* CategoryScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryScrollView.swift; sourceTree = "<group>"; };
+		053B12A723C5441B0059F648 /* PlantScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantScrollView.swift; sourceTree = "<group>"; };
+		053B12A923C544950059F648 /* PlantCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantCardView.swift; sourceTree = "<group>"; };
+		058F898323C6D2B100DE8D77 /* Muli-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Muli-Regular.ttf"; sourceTree = "<group>"; };
+		058F898423C6D2B100DE8D77 /* Muli-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Muli-Bold.ttf"; sourceTree = "<group>"; };
+		058F898723C6D67900DE8D77 /* Raleway-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-ExtraBold.ttf"; sourceTree = "<group>"; };
+		058F898923C6D6E100DE8D77 /* Raleway-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Bold.ttf"; sourceTree = "<group>"; };
+		058F898B23C6D79300DE8D77 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
+		058F898D23C6D99500DE8D77 /* Acre-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Acre-Medium.otf"; sourceTree = "<group>"; };
+		058F898F23C6DB3300DE8D77 /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Regular.ttf"; sourceTree = "<group>"; };
+		058F899123C6DBB000DE8D77 /* Raleway-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Medium.ttf"; sourceTree = "<group>"; };
+		058F899323C6DDFC00DE8D77 /* Campton-BoldDEMO.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Campton-BoldDEMO.otf"; sourceTree = "<group>"; };
+		058F899523C7B37200DE8D77 /* Plant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plant.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		05229FDA23BEFB2200F04D5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		05229FD423BEFB2200F04D5E = {
+			isa = PBXGroup;
+			children = (
+				05229FDF23BEFB2200F04D5E /* Programmatic UI */,
+				05229FDE23BEFB2200F04D5E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		05229FDE23BEFB2200F04D5E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				05229FDD23BEFB2200F04D5E /* Programmatic UI.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		05229FDF23BEFB2200F04D5E /* Programmatic UI */ = {
+			isa = PBXGroup;
+			children = (
+				05229FE023BEFB2200F04D5E /* AppDelegate.swift */,
+				05229FE223BEFB2200F04D5E /* SceneDelegate.swift */,
+				05229FE423BEFB2200F04D5E /* MainViewController.swift */,
+				053B12A523C540B80059F648 /* CategoryScrollView.swift */,
+				053B12A723C5441B0059F648 /* PlantScrollView.swift */,
+				053B12A923C544950059F648 /* PlantCardView.swift */,
+				058F899523C7B37200DE8D77 /* Plant.swift */,
+				0522A01F23C3F3E200F04D5E /* Constants.swift */,
+				05229FE923BEFB2500F04D5E /* Assets.xcassets */,
+				05229FEB23BEFB2500F04D5E /* LaunchScreen.storyboard */,
+				05229FEE23BEFB2500F04D5E /* Info.plist */,
+				0522A01A23C3F16000F04D5E /* Fonts */,
+			);
+			path = "Programmatic UI";
+			sourceTree = "<group>";
+		};
+		0522A01A23C3F16000F04D5E /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				058F899323C6DDFC00DE8D77 /* Campton-BoldDEMO.otf */,
+				058F899123C6DBB000DE8D77 /* Raleway-Medium.ttf */,
+				058F898F23C6DB3300DE8D77 /* Raleway-Regular.ttf */,
+				058F898D23C6D99500DE8D77 /* Acre-Medium.otf */,
+				058F898B23C6D79300DE8D77 /* Montserrat-Bold.ttf */,
+				058F898723C6D67900DE8D77 /* Raleway-ExtraBold.ttf */,
+				058F898923C6D6E100DE8D77 /* Raleway-Bold.ttf */,
+				058F898423C6D2B100DE8D77 /* Muli-Bold.ttf */,
+				058F898323C6D2B100DE8D77 /* Muli-Regular.ttf */,
+				053B129F23C406FD0059F648 /* CoreSansG-Bold.ttf */,
+				053B12A123C407080059F648 /* CoreSansG-Regular.ttf */,
+				0522A01C23C3F2A400F04D5E /* AvertaDemo-ExtraBold.otf */,
+				0522A01B23C3F2A400F04D5E /* AvertaDemo-Regular.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		05229FDC23BEFB2200F04D5E /* Programmatic UI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 05229FF123BEFB2500F04D5E /* Build configuration list for PBXNativeTarget "Programmatic UI" */;
+			buildPhases = (
+				05229FD923BEFB2200F04D5E /* Sources */,
+				05229FDA23BEFB2200F04D5E /* Frameworks */,
+				05229FDB23BEFB2200F04D5E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Programmatic UI";
+			productName = "Programmatic UI";
+			productReference = 05229FDD23BEFB2200F04D5E /* Programmatic UI.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		05229FD523BEFB2200F04D5E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1130;
+				LastUpgradeCheck = 1130;
+				ORGANIZATIONNAME = "Milo Wyner";
+				TargetAttributes = {
+					05229FDC23BEFB2200F04D5E = {
+						CreatedOnToolsVersion = 11.3;
+					};
+				};
+			};
+			buildConfigurationList = 05229FD823BEFB2200F04D5E /* Build configuration list for PBXProject "Programmatic UI" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 05229FD423BEFB2200F04D5E;
+			productRefGroup = 05229FDE23BEFB2200F04D5E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				05229FDC23BEFB2200F04D5E /* Programmatic UI */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		05229FDB23BEFB2200F04D5E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				05229FED23BEFB2500F04D5E /* LaunchScreen.storyboard in Resources */,
+				053B12A223C407080059F648 /* CoreSansG-Regular.ttf in Resources */,
+				058F899423C6DDFC00DE8D77 /* Campton-BoldDEMO.otf in Resources */,
+				058F898E23C6D99500DE8D77 /* Acre-Medium.otf in Resources */,
+				058F898523C6D2B100DE8D77 /* Muli-Regular.ttf in Resources */,
+				058F898A23C6D6E100DE8D77 /* Raleway-Bold.ttf in Resources */,
+				0522A01E23C3F2A400F04D5E /* AvertaDemo-ExtraBold.otf in Resources */,
+				0522A01D23C3F2A400F04D5E /* AvertaDemo-Regular.otf in Resources */,
+				058F899223C6DBB000DE8D77 /* Raleway-Medium.ttf in Resources */,
+				05229FEA23BEFB2500F04D5E /* Assets.xcassets in Resources */,
+				058F898823C6D67900DE8D77 /* Raleway-ExtraBold.ttf in Resources */,
+				058F898623C6D2B100DE8D77 /* Muli-Bold.ttf in Resources */,
+				058F899023C6DB3300DE8D77 /* Raleway-Regular.ttf in Resources */,
+				058F898C23C6D79300DE8D77 /* Montserrat-Bold.ttf in Resources */,
+				053B12A023C406FE0059F648 /* CoreSansG-Bold.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		05229FD923BEFB2200F04D5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				053B12AA23C544950059F648 /* PlantCardView.swift in Sources */,
+				05229FE523BEFB2200F04D5E /* MainViewController.swift in Sources */,
+				05229FE123BEFB2200F04D5E /* AppDelegate.swift in Sources */,
+				053B12A623C540B80059F648 /* CategoryScrollView.swift in Sources */,
+				05229FE323BEFB2200F04D5E /* SceneDelegate.swift in Sources */,
+				058F899623C7B37200DE8D77 /* Plant.swift in Sources */,
+				0522A02023C3F3E200F04D5E /* Constants.swift in Sources */,
+				053B12A823C5441B0059F648 /* PlantScrollView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		05229FEB23BEFB2500F04D5E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				05229FEC23BEFB2500F04D5E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		05229FEF23BEFB2500F04D5E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		05229FF023BEFB2500F04D5E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		05229FF223BEFB2500F04D5E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6NZ2YFKUT7;
+				INFOPLIST_FILE = "Programmatic UI/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.milowyner.Programmatic-UI";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		05229FF323BEFB2500F04D5E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6NZ2YFKUT7;
+				INFOPLIST_FILE = "Programmatic UI/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.milowyner.Programmatic-UI";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		05229FD823BEFB2200F04D5E /* Build configuration list for PBXProject "Programmatic UI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				05229FEF23BEFB2500F04D5E /* Debug */,
+				05229FF023BEFB2500F04D5E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		05229FF123BEFB2500F04D5E /* Build configuration list for PBXNativeTarget "Programmatic UI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				05229FF223BEFB2500F04D5E /* Debug */,
+				05229FF323BEFB2500F04D5E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 05229FD523BEFB2200F04D5E /* Project object */;
+}
