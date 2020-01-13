@@ -202,14 +202,9 @@ class MainViewController: UIViewController, UIScrollViewDelegate, CategoryScroll
         let attributes = self.descriptionBodyLabel.attributedText?.attributes(at: 0, effectiveRange: nil)
         let attributedString = NSAttributedString(string: visiblePlants[index].description, attributes: attributes)
             descriptionBodyLabel.layer.removeAllAnimations()
-            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
-                self.descriptionBodyLabel.layer.opacity = 0
-            }) { (completed) in
-                self.descriptionBodyLabel.attributedText = attributedString
-                UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
-                    self.descriptionBodyLabel.layer.opacity = 1
-                }, completion: nil)
-            }
+        UIView.transition(with: descriptionBodyLabel, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            self.descriptionBodyLabel.attributedText = attributedString
+        }, completion: nil)
     }
     
     // MARK: - Actions

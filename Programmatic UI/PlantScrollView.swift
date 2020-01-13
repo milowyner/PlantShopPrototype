@@ -49,59 +49,15 @@ class PlantScrollView: UIScrollView {
     }
     
     func setPlants(_ plants: [Plant]) {
-        setContentOffset(.zero, animated: true)
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
-            self.layer.opacity = 0.5
-        }) { (completed) in
+        let cardViews: [PlantCardView] = plants.map { PlantCardView(from: $0) }
+
+        UIView.transition(with: self, duration: 0.3, options: .transitionCrossDissolve, animations: {
             self.clearPlants()
-            for plant in plants {
-                let cardView = PlantCardView(from: plant)
+            for cardView in cardViews {
                 self.stackView.addArrangedSubview(cardView)
             }
-            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
-                self.layer.opacity = 1
-            }, completion: nil)
-        }
-        
-        // Alternate method
-//
-//        // Clear card views that aren't in the plant array
-//        for subview in stackView.arrangedSubviews {
-//            let cardView = subview as! PlantCardView
-//            if !plants.contains(where: { $0.name == cardView.nameLabel.text }) {
-//                UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
-//                    subview.layer.opacity = 0
-//                }) { (completed) in
-//                    self.stackView.removeArrangedSubview(subview)
-//                    subview.removeFromSuperview()
-//                }
-//            }
-//        }
-//
-//        // Add card views that aren't in the stackView array
-//        for (index, plant) in plants.enumerated() {
-//            if !stackView.arrangedSubviews.contains(where: { ($0 as! PlantCardView).nameLabel.text == plant.name }) {
-//                let cardView = PlantCardView(from: plant)
-//                cardView.layer.opacity = 0
-//
-//                var cardToMove: UIView?
-//                var secondCardToMove: UIView?
-//
-//                UIView.animate(withDuration: 0.2, delay: 0.2, options: .curveEaseIn, animations: {
-//                    cardToMove = self.stackView.arrangedSubviews.count >= index + 1 ? self.stackView.arrangedSubviews[index] : nil
-//                    secondCardToMove = self.stackView.arrangedSubviews.count >= index + 2 ? self.stackView.arrangedSubviews[index + 1] : nil
-//                    cardToMove?.transform = CGAffineTransform(translationX: self.frame.width, y: 0)
-//                    secondCardToMove?.transform = CGAffineTransform(translationX: self.frame.width, y: 0)
-//                }) { (completed) in
-//                    self.stackView.insertArrangedSubview(cardView, at: index)
-//                    cardToMove?.transform = CGAffineTransform.identity
-//                    secondCardToMove?.transform = CGAffineTransform.identity
-//                    UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
-//                        cardView.layer.opacity = 1
-//                    }, completion: nil)
-//                }
-//            }
-//        }
+            self.contentOffset = .zero
+        }, completion: nil)
     }
         
 }
