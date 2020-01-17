@@ -8,10 +8,10 @@
 
 import UIKit
 
-class PlantScrollView: UIScrollView {
+class PlantScrollView: UIScrollView, PlantCardViewDelegate {
     
     let stackView = UIStackView()
-    
+        
     init() {
         super.init(frame: CGRect.zero)
                 
@@ -49,7 +49,11 @@ class PlantScrollView: UIScrollView {
     }
     
     func setPlants(_ plants: [Plant]) {
-        let cardViews: [PlantCardView] = plants.map { PlantCardView(from: $0) }
+        let cardViews: [PlantCardView] = plants.map {
+            let cardView = PlantCardView(from: $0)
+            cardView.delegate = self
+            return cardView
+        }
 
         UIView.transition(with: self, duration: 0.3, options: .transitionCrossDissolve, animations: {
             self.clearPlants()
@@ -58,6 +62,10 @@ class PlantScrollView: UIScrollView {
             }
             self.contentOffset = .zero
         }, completion: nil)
+    }
+    
+    @objc func plantCardPressed(_ sender: PlantCardView) {
+        (delegate as! PlantCardViewDelegate).plantCardPressed(sender)
     }
         
 }

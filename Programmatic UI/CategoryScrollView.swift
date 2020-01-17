@@ -8,18 +8,6 @@
 
 import UIKit
 
-enum PlantCategory: String, CaseIterable {
-    case top = "Top"
-    case outdoor = "Outdoor"
-    case indoor = "Indoor"
-    case plantCare = "Plant Care"
-    case terrariums = "Terrariums"
-}
-
-protocol CategoryScrollViewDelegate {
-    func categoryButtonPressed(_ sender: UIButton)
-}
-
 class CategoryScrollView: UIScrollView {
     
     let stackView = UIStackView()
@@ -95,5 +83,17 @@ class CategoryScrollView: UIScrollView {
         button.titleLabel?.font = getScaledFont(for: .coreSansRegular, size: .button)
     }
     
+}
+
+enum PlantCategory: String, CaseIterable {
+    case top = "Top"
+    case outdoor = "Outdoor"
+    case indoor = "Indoor"
+    case plantCare = "Plant Care"
+    case terrariums = "Terrariums"
+}
+
+protocol CategoryScrollViewDelegate {
+    func categoryButtonPressed(_ sender: UIButton)
 }
 

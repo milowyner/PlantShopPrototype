@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UIScrollViewDelegate, CategoryScrollViewDelegate {
+class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewDelegate, CategoryScrollViewDelegate {
 
     let menuButton = UIButton()
     let shoppingCartButton = UIButton()
@@ -49,7 +49,99 @@ class MainViewController: UIViewController, UIScrollViewDelegate, CategoryScroll
         setupDescriptionBodyLabel()
     }
     
-    // MARK: - Set Up Views
+    // MARK: - Actions
+    
+    @objc func shoppingCartButtonTouchDown() {
+        UIView.animate(withDuration: 0.1, animations: {
+            self.shoppingCartButton.transform = self.shoppingCartButton.transform.scaledBy(x: 1.3, y: 1.3)
+        })
+    }
+    
+    @objc func shoppingCartButtonTouchUp() {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.shoppingCartButton.transform = CGAffineTransform.identity
+        })
+    }
+    
+    // MARK: - Delegate Methods
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let newPageIndex = Int(round(scrollView.contentOffset.x / scrollView.frame.width))
+        if newPageIndex != pageIndexOfPlantScrollView && visiblePlants.count >= newPageIndex + 1 {
+            setNewDescription(index: newPageIndex)
+            pageIndexOfPlantScrollView = newPageIndex
+        }
+    }
+    
+    func categoryButtonPressed(_ sender: UIButton) {
+        let category = PlantCategory.init(rawValue: sender.title(for: .normal)!)!
+        
+        if category != selectedCategory {
+            visiblePlants = filteredPlants(fromCategory: category)
+            plantScrollView.setPlants(visiblePlants)
+            if visiblePlants.isEmpty {
+                showNothingFoundLabel()
+            } else {
+                hideNothingFoundLabel()
+                setNewDescription(index: 0)
+            }
+            selectedCategory = category
+        }
+    }
+    
+    func plantCardPressed(_ sender: PlantCardView) {
+        print("Plant card pressed. Plant name:", sender.nameLabel.text!)
+    }
+    
+    // MARK: - Private Functions
+    
+    private func filteredPlants(fromCategory category: PlantCategory) -> [Plant] {
+        switch category {
+        case .top:
+            return allPlants
+        case .outdoor:
+            return allPlants.filter { $0.category == .outdoor }
+        case .indoor:
+            return allPlants.filter { $0.category == .indoor }
+        case .plantCare:
+            return []
+        case .terrariums:
+            return []
+        }
+    }
+    
+    private func showNothingFoundLabel() {
+        nothingFoundLabel.text = "Nothing found."
+        nothingFoundLabel.textColor = .secondaryLabel
+        nothingFoundLabel.font = getScaledFont(for: .bold, size: .price)
+        
+        view.addSubview(nothingFoundLabel)
+        
+        // Set constraints
+        nothingFoundLabel.translatesAutoresizingMaskIntoConstraints = false
+        nothingFoundLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        nothingFoundLabel.centerYAnchor.constraint(equalTo: plantScrollView.topAnchor, constant: PlantCardView.cardHeight / 2).isActive = true
+        
+        descriptionLabel.isHidden = true
+        descriptionBodyLabel.isHidden = true
+    }
+    
+    private func hideNothingFoundLabel() {
+        nothingFoundLabel.removeFromSuperview()
+        descriptionLabel.isHidden = false
+        descriptionBodyLabel.isHidden = false
+    }
+    
+    private func setNewDescription(index: Int) {
+        let attributes = self.descriptionBodyLabel.attributedText?.attributes(at: 0, effectiveRange: nil)
+        let attributedString = NSAttributedString(string: visiblePlants[index].description, attributes: attributes)
+            descriptionBodyLabel.layer.removeAllAnimations()
+        UIView.transition(with: descriptionBodyLabel, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            self.descriptionBodyLabel.attributedText = attributedString
+        }, completion: nil)
+    }
+    
+    // MARK: - View Setup
     
     func setupMenuButton() {
         menuButton.setImage(UIImage(named: "Menu"), for: .normal)
@@ -174,93 +266,6 @@ class MainViewController: UIViewController, UIScrollViewDelegate, CategoryScroll
         descriptionBodyLabel.topAnchor.constraint(equalToSystemSpacingBelow: descriptionLabel.bottomAnchor, multiplier: 1).isActive = true
         descriptionBodyLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant).isActive = true
         descriptionBodyLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -spacingConstant).isActive = true
-    }
-    
-    func showNothingFoundLabel() {
-        nothingFoundLabel.text = "Nothing found."
-        nothingFoundLabel.textColor = .secondaryLabel
-        nothingFoundLabel.font = getScaledFont(for: .bold, size: .price)
-        
-        view.addSubview(nothingFoundLabel)
-        
-        // Set constraints
-        nothingFoundLabel.translatesAutoresizingMaskIntoConstraints = false
-        nothingFoundLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        nothingFoundLabel.centerYAnchor.constraint(equalTo: plantScrollView.topAnchor, constant: PlantCardView.cardHeight / 2).isActive = true
-        
-        descriptionLabel.isHidden = true
-        descriptionBodyLabel.isHidden = true
-    }
-    
-    func hideNothingFoundLabel() {
-        nothingFoundLabel.removeFromSuperview()
-        descriptionLabel.isHidden = false
-        descriptionBodyLabel.isHidden = false
-    }
-    
-    func setNewDescription(index: Int) {
-        let attributes = self.descriptionBodyLabel.attributedText?.attributes(at: 0, effectiveRange: nil)
-        let attributedString = NSAttributedString(string: visiblePlants[index].description, attributes: attributes)
-            descriptionBodyLabel.layer.removeAllAnimations()
-        UIView.transition(with: descriptionBodyLabel, duration: 0.3, options: .transitionCrossDissolve, animations: {
-            self.descriptionBodyLabel.attributedText = attributedString
-        }, completion: nil)
-    }
-    
-    // MARK: - Actions
-    
-    @objc func shoppingCartButtonTouchDown() {
-        UIView.animate(withDuration: 0.1, animations: {
-            self.shoppingCartButton.transform = self.shoppingCartButton.transform.scaledBy(x: 1.3, y: 1.3)
-        })
-    }
-    
-    @objc func shoppingCartButtonTouchUp() {
-        UIView.animate(withDuration: 0.2, animations: {
-            self.shoppingCartButton.transform = CGAffineTransform.identity
-        })
-    }
-    
-    // MARK: - Delegate Methods
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let newPageIndex = Int(round(scrollView.contentOffset.x / scrollView.frame.width))
-        if newPageIndex != pageIndexOfPlantScrollView && visiblePlants.count >= newPageIndex + 1 {
-            setNewDescription(index: newPageIndex)
-            pageIndexOfPlantScrollView = newPageIndex
-        }
-    }
-    
-    func categoryButtonPressed(_ sender: UIButton) {
-        let category = PlantCategory.init(rawValue: sender.title(for: .normal)!)!
-        
-        if category != selectedCategory {
-            visiblePlants = filteredPlants(fromCategory: category)
-            plantScrollView.setPlants(visiblePlants)
-            if visiblePlants.isEmpty {
-                showNothingFoundLabel()
-            } else {
-                hideNothingFoundLabel()
-                setNewDescription(index: 0)
-            }
-            selectedCategory = category
-        }
-        
-    }
-    
-    func filteredPlants(fromCategory category: PlantCategory) -> [Plant]{
-        switch category {
-        case .top:
-            return allPlants
-        case .outdoor:
-            return allPlants.filter { $0.category == .outdoor }
-        case .indoor:
-            return allPlants.filter { $0.category == .indoor }
-        case .plantCare:
-            return []
-        case .terrariums:
-            return []
-        }
     }
     
 }

@@ -8,11 +8,11 @@
 
 import UIKit
 
-class PlantCardView: UIView {
+class PlantCardView: UIButton {
     
     private var fromLabel = UILabel()
     
-    var backgroundView = UIView()
+    var backgroundView = UIButton()
     var priceLabel = UILabel()
     var plantImage = UIImageView()
     var categoryLabel = UILabel()
@@ -23,6 +23,8 @@ class PlantCardView: UIView {
     static let cardWidth: CGFloat = 220
     static let cardHeight: CGFloat = 355
     static let bottomOffset: CGFloat = 40
+    
+    var delegate: PlantCardViewDelegate?
     
     init(from plant: Plant) {
         super.init(frame: CGRect.zero)
@@ -50,6 +52,7 @@ class PlantCardView: UIView {
     private func setupBackgroundView() {
         backgroundView.backgroundColor = .plantBackground
         backgroundView.layer.cornerRadius = 14
+        backgroundView.addTarget(self, action: #selector(backgroundPressed(_:)), for: .touchUpInside)
         
         addSubview(backgroundView)
         
@@ -59,7 +62,6 @@ class PlantCardView: UIView {
         backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -PlantCardView.bottomOffset).isActive = true
         backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-
     }
     
     private func setupFromLabel() {
@@ -180,4 +182,12 @@ class PlantCardView: UIView {
         })
     }
     
+    @objc func backgroundPressed(_ sender: UIButton) {
+        delegate?.plantCardPressed(self)
+    }
+    
+}
+
+protocol PlantCardViewDelegate {
+    func plantCardPressed(_ sender: PlantCardView)
 }
