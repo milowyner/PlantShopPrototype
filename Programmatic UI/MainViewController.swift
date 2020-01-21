@@ -9,21 +9,6 @@
 import UIKit
 
 class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewDelegate, CategoryScrollViewDelegate {
-
-    let menuButton = UIButton()
-    let shoppingCartButton = UIButton()
-    let titleLabel = UILabel()
-    let categoryScrollView = CategoryScrollView()
-    let plantScrollView = PlantScrollView()
-    let plantScrollViewContainer = UIView()
-    let descriptionLabel = UILabel()
-    let descriptionBodyLabel = UILabel()
-    let nothingFoundLabel = UILabel()
-    
-    // Used to animate the description change of the current plant card being displayed
-    var pageIndexOfPlantScrollView = 0
-    
-    var selectedCategory: PlantCategory = .top
     
     var visiblePlants = [Plant]()
     
@@ -32,21 +17,131 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
         Plant(name: "Monstera Deliciosa", price: 40, category: .indoor, sizes: [.large], image: UIImage(named: "monstera-deliciosa-left")!, description: "Also known as a split leaf philodendron, this easy-to-grow houseplant can get huge and live for many years, and it looks great with many different interior styles."),
         Plant(name: "Ficus", price: 30, category: .indoor, sizes: [.small], image: UIImage(named: "ficus-shadow")!, description: "Ficus trees are a common plant in the home and office, mainly because they look like a typical tree with a single trunk and a spreading canopy."),
     ]
-        
+    
+    var selectedCategory: PlantCategory = .top
+    
+    // Used to animate the description change of the current plant card being displayed
+    var pageIndexOfPlantScrollView = 0
+    
+    // MARK: Views
+    
+    let menuButton: UIButton = {
+        let menuButton = UIButton()
+        menuButton.setImage(UIImage(named: "Menu"), for: .normal)
+        return menuButton
+    }()
+    
+    let shoppingCartButton: UIButton = {
+        let shoppingCartButton = UIButton()
+        shoppingCartButton.setImage(UIImage(systemName: "cart", withConfiguration: UIImage.SymbolConfiguration(scale: .large)), for: .normal)
+        shoppingCartButton.tintColor = .label
+        shoppingCartButton.backgroundColor = .secondarySystemFill
+        shoppingCartButton.layer.cornerRadius = 25
+        shoppingCartButton.addTarget(self, action: #selector(shoppingCartButtonTouchDown), for: .touchDown)
+        shoppingCartButton.addTarget(self, action: #selector(shoppingCartButtonTouchUp), for: .touchUpInside)
+        shoppingCartButton.addTarget(self, action: #selector(shoppingCartButtonTouchUp), for: .touchDragExit)
+        return shoppingCartButton
+    }()
+    
+    let titleLabel: UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.text = "Top Picks"
+        titleLabel.textColor = .label
+        titleLabel.font = getScaledFont(for: Font.regular, size: .title)
+        titleLabel.adjustsFontForContentSizeCategory = true
+        return titleLabel
+    }()
+    
+    let categoryScrollView = CategoryScrollView()
+    
+    let plantScrollViewContainer = UIView()
+    
+    let plantScrollView: PlantScrollView = {
+        let plantScrollView = PlantScrollView()
+        // Enable paging
+        plantScrollView.isPagingEnabled = true
+        plantScrollView.clipsToBounds = false
+        return plantScrollView
+    }()
+    
+    let descriptionLabel: UILabel = {
+        let descriptionLabel = UILabel()
+        descriptionLabel.text = "Description"
+        descriptionLabel.textColor = .label
+        descriptionLabel.font = getScaledFont(for: Font.regular, size: .headline)
+        return descriptionLabel
+    }()
+    
+    let descriptionBodyLabel: UILabel = {
+        let descriptionBodyLabel = UILabel()
+        descriptionBodyLabel.textColor = .secondaryLabel
+        descriptionBodyLabel.font = getScaledFont(for: Font.regular, size: .body)
+        descriptionBodyLabel.numberOfLines = 0
+        return descriptionBodyLabel
+    }()
+    
+    let nothingFoundLabel = UILabel()
+    
+    // A list of every view that will use autolayout
+    lazy var autoLayoutViews = [
+        menuButton,
+        shoppingCartButton,
+        titleLabel,
+        categoryScrollView,
+        plantScrollViewContainer,
+        plantScrollView,
+        descriptionLabel,
+        descriptionBodyLabel,
+        nothingFoundLabel
+    ]
+    
+    // MARK: - View Did Load
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
         navigationController?.isNavigationBarHidden = true
         
-        // Set up views
-        setupMenuButton()
-        setupShoppingCartButton()
-        setupTitleLabel()
-        setupCategoryScrollView()
-        setupPlantScrollView()
-        setupDescriptionLabel()
-        setupDescriptionBodyLabel()
+        setupViews()
+        setConstraints()
+    }
+    
+    // MARK: - View Setup
+    
+    private func setupViews() {
+        // Add top level views to the main view
+        let topLevelViews = [
+            menuButton,
+            shoppingCartButton,
+            titleLabel,
+            categoryScrollView,
+            plantScrollViewContainer,
+            descriptionLabel,
+            descriptionBodyLabel,
+            nothingFoundLabel
+        ]
+        for view in topLevelViews {
+            self.view.addSubview(view)
+        }
+        
+        // Category scroll view setup
+        categoryScrollView.categoryDelegate = self
+        
+        // Plant scroll view setup
+        visiblePlants = filteredPlants(fromCategory: .top)
+        plantScrollView.setPlants(visiblePlants)
+        plantScrollView.delegate = self
+        
+        // Plant scroll view container setup
+        plantScrollViewContainer.addSubview(plantScrollView)
+        plantScrollViewContainer.addGestureRecognizer(plantScrollView.panGestureRecognizer)
+        
+        // Description body label setup
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 4
+        let attributedString = NSMutableAttributedString(string: visiblePlants[0].description, attributes: [.paragraphStyle: paragraphStyle])
+        descriptionBodyLabel.attributedText = attributedString
     }
     
     // MARK: - Actions
@@ -135,137 +230,65 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
     private func setNewDescription(index: Int) {
         let attributes = self.descriptionBodyLabel.attributedText?.attributes(at: 0, effectiveRange: nil)
         let attributedString = NSAttributedString(string: visiblePlants[index].description, attributes: attributes)
-            descriptionBodyLabel.layer.removeAllAnimations()
+        descriptionBodyLabel.layer.removeAllAnimations()
         UIView.transition(with: descriptionBodyLabel, duration: 0.3, options: .transitionCrossDissolve, animations: {
             self.descriptionBodyLabel.attributedText = attributedString
         }, completion: nil)
     }
     
-    // MARK: - View Setup
+    // MARK: - Constraints
     
-    func setupMenuButton() {
-        menuButton.setImage(UIImage(named: "Menu"), for: .normal)
-
-        view.addSubview(menuButton)
+    private func setConstraints() {
+        // Enable autolayout for every view
+        for view in autoLayoutViews {
+            view.translatesAutoresizingMaskIntoConstraints = false
+        }
         
-        // Set constraints
-        menuButton.translatesAutoresizingMaskIntoConstraints = false
-        menuButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        menuButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        menuButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: spacingConstant / 2).isActive = true
-        menuButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant - 10).isActive = true
-    }
-    
-    func setupShoppingCartButton() {
-        shoppingCartButton.setImage(UIImage(systemName: "cart", withConfiguration: UIImage.SymbolConfiguration(scale: .large)), for: .normal)
-        shoppingCartButton.tintColor = .label
-        shoppingCartButton.backgroundColor = .secondarySystemFill
-        shoppingCartButton.layer.cornerRadius = 25
-        shoppingCartButton.addTarget(self, action: #selector(shoppingCartButtonTouchDown), for: .touchDown)
-        shoppingCartButton.addTarget(self, action: #selector(shoppingCartButtonTouchUp), for: .touchUpInside)
-        shoppingCartButton.addTarget(self, action: #selector(shoppingCartButtonTouchUp), for: .touchDragExit)
-        
-        view.addSubview(shoppingCartButton)
-        
-        // Set constraints
-        shoppingCartButton.translatesAutoresizingMaskIntoConstraints = false
-        shoppingCartButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        shoppingCartButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        shoppingCartButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: spacingConstant / 2).isActive = true
-        shoppingCartButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -smallerSpacingConstant).isActive = true
-    }
-    
-    func setupTitleLabel() {
-        titleLabel.text = "Top Picks"
-        titleLabel.textColor = .label
-        titleLabel.font = getScaledFont(for: Font.regular, size: .title)
-        titleLabel.adjustsFontForContentSizeCategory = true
-        
-        view.addSubview(titleLabel)
-        
-        // Set constraints
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.topAnchor.constraint(equalTo: shoppingCartButton.bottomAnchor, constant: spacingConstant / 2).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant).isActive = true
-        titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: spacingConstant).isActive = true
-    }
-    
-    func setupCategoryScrollView() {
-        view.addSubview(categoryScrollView)
-        categoryScrollView.categoryDelegate = self
-        
-        // Set constraints
-        categoryScrollView.translatesAutoresizingMaskIntoConstraints = false
-        categoryScrollView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacingConstant).isActive = true
-        categoryScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        categoryScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-    }
-        
-    func setupPlantScrollView() {
-        // Set up container
-        view.addSubview(plantScrollViewContainer)
-        
-        // Set constraints
-        plantScrollViewContainer.translatesAutoresizingMaskIntoConstraints = false
-        plantScrollViewContainer.topAnchor.constraint(equalTo: categoryScrollView.bottomAnchor, constant: spacingConstant / 2).isActive = true
-        plantScrollViewContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        plantScrollViewContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        
-        // Set up plant scroll view
-        visiblePlants = filteredPlants(fromCategory: .top)
-        plantScrollView.setPlants(visiblePlants)
-        
-        plantScrollView.delegate = self
-        
-        // Enable paging
-        plantScrollView.isPagingEnabled = true
-        plantScrollView.clipsToBounds = false
-        plantScrollViewContainer.addGestureRecognizer(plantScrollView.panGestureRecognizer)
-
-        plantScrollViewContainer.addSubview(plantScrollView)
-        
-        // Set constraints
-        plantScrollView.translatesAutoresizingMaskIntoConstraints = false
-        plantScrollView.topAnchor.constraint(equalTo: plantScrollViewContainer.topAnchor).isActive = true
-        plantScrollView.bottomAnchor.constraint(equalTo: plantScrollViewContainer.bottomAnchor).isActive = true
-        plantScrollView.leadingAnchor.constraint(equalTo: plantScrollViewContainer.leadingAnchor, constant: spacingConstant).isActive = true
-        plantScrollView.widthAnchor.constraint(equalToConstant: PlantCardView.cardWidth + smallerSpacingConstant).isActive = true
-        
-    }
-    
-    func setupDescriptionLabel() {
-        descriptionLabel.text = "Description"
-        descriptionLabel.textColor = .label
-        descriptionLabel.font = getScaledFont(for: Font.regular, size: .headline)
-        
-        view.addSubview(descriptionLabel)
-        
-        // Add constraints
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.topAnchor.constraint(equalToSystemSpacingBelow: plantScrollView.bottomAnchor, multiplier: 1).isActive = true
-        descriptionLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant).isActive = true
-        descriptionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -spacingConstant).isActive = true
-    }
-    
-    func setupDescriptionBodyLabel() {
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 4
-        
-        let attributedString = NSMutableAttributedString(string: visiblePlants[0].description, attributes: [.paragraphStyle: paragraphStyle])
-        
-        descriptionBodyLabel.attributedText = attributedString
-        descriptionBodyLabel.textColor = .secondaryLabel
-        descriptionBodyLabel.font = getScaledFont(for: Font.regular, size: .body)
-        descriptionBodyLabel.numberOfLines = 0
-        
-        view.addSubview(descriptionBodyLabel)
-        
-        // Add constraints
-        descriptionBodyLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionBodyLabel.topAnchor.constraint(equalToSystemSpacingBelow: descriptionLabel.bottomAnchor, multiplier: 1).isActive = true
-        descriptionBodyLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant).isActive = true
-        descriptionBodyLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -spacingConstant).isActive = true
+        // Activate constraints
+        NSLayoutConstraint.activate([
+            // Menu button
+            menuButton.widthAnchor.constraint(equalToConstant: 50),
+            menuButton.heightAnchor.constraint(equalToConstant: 50),
+            menuButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: spacingConstant / 2),
+            menuButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant - 10),
+            
+            // Shopping cart button
+            shoppingCartButton.widthAnchor.constraint(equalToConstant: 50),
+            shoppingCartButton.heightAnchor.constraint(equalToConstant: 50),
+            shoppingCartButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: spacingConstant / 2),
+            shoppingCartButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -smallerSpacingConstant),
+            
+            // Title label
+            titleLabel.topAnchor.constraint(equalTo: shoppingCartButton.bottomAnchor, constant: spacingConstant / 2),
+            titleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: spacingConstant),
+            
+            // Category scroll view
+            categoryScrollView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacingConstant),
+            categoryScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            categoryScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            // Plant scroll view container
+            plantScrollViewContainer.topAnchor.constraint(equalTo: categoryScrollView.bottomAnchor, constant: spacingConstant / 2),
+            plantScrollViewContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            plantScrollViewContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            // Plant scroll view
+            plantScrollView.topAnchor.constraint(equalTo: plantScrollViewContainer.topAnchor),
+            plantScrollView.bottomAnchor.constraint(equalTo: plantScrollViewContainer.bottomAnchor),
+            plantScrollView.leadingAnchor.constraint(equalTo: plantScrollViewContainer.leadingAnchor, constant: spacingConstant),
+            plantScrollView.widthAnchor.constraint(equalToConstant: PlantCardView.cardWidth + smallerSpacingConstant),
+            
+            // Descrtiption label
+            descriptionLabel.topAnchor.constraint(equalToSystemSpacingBelow: plantScrollView.bottomAnchor, multiplier: 1),
+            descriptionLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant),
+            descriptionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -spacingConstant),
+            
+            // Description body label
+            descriptionBodyLabel.topAnchor.constraint(equalToSystemSpacingBelow: descriptionLabel.bottomAnchor, multiplier: 1),
+            descriptionBodyLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant),
+            descriptionBodyLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -spacingConstant)
+        ])
     }
     
 }
