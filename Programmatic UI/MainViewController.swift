@@ -185,7 +185,10 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
     }
     
     func plantCardPressed(_ sender: PlantCardView) {
-        print("Plant card pressed. Plant name:", sender.nameLabel.text!)
+        let plantInfoVC = PlantInfoViewController()
+        plantInfoVC.plant = sender.plant
+        
+        show(plantInfoVC, sender: self)
     }
     
     // MARK: - Private Functions

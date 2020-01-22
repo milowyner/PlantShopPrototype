@@ -11,7 +11,6 @@ import UIKit
 class PlantCardView: UIButton {
     
     private var fromLabel = UILabel()
-    
     var backgroundView = UIButton()
     var priceLabel = UILabel()
     var plantImage = UIImageView()
@@ -24,10 +23,14 @@ class PlantCardView: UIButton {
     static let cardHeight: CGFloat = 355
     static let bottomOffset: CGFloat = 40
     
+    var plant: Plant!
+    
     var delegate: PlantCardViewDelegate?
     
     init(from plant: Plant) {
         super.init(frame: CGRect.zero)
+        
+        self.plant = plant
                 
         setupBackgroundView()
         setupPlantImage(with: plant.image)
