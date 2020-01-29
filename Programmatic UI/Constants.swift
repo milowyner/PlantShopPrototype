@@ -11,9 +11,9 @@ import UIKit
 let spacingConstant: CGFloat = 40
 let smallerSpacingConstant: CGFloat = 30
 
-enum Font: String {
-    static let regular = Font.avertaRegular
-    static let bold = Font.camptonBold
+enum FontName: String {
+    static let regular = FontName.avertaRegular
+    static let bold = FontName.camptonBold
     
     case avertaRegular = "AvertaDemoPECuttedDemo-Regular"
     case avertaExtraBold = "AvertaDemoPE-ExtraBold"
@@ -28,7 +28,7 @@ enum Font: String {
     case camptonBold = "Campton-BoldDEMO"
 }
 
-func getScaledFont(for name: Font, size: CGFloat) -> UIFont {
+func getScaledFont(for name: FontName, size: CGFloat) -> UIFont {
     return UIFontMetrics.default.scaledFont(for: UIFont(name: name.rawValue, size: size)!)
 }
 
@@ -42,7 +42,7 @@ extension CGFloat {
     static let title: CGFloat = 32
     static let button: CGFloat = UIFont.buttonFontSize
     static let body: CGFloat = 12
-    static let caption: CGFloat = 10
-    static let price: CGFloat = 20
+    static let label: CGFloat = 10
+    static let info: CGFloat = 20
     static let headline: CGFloat = UIFont.preferredFont(forTextStyle: .headline).pointSize
 }

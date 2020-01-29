@@ -13,22 +13,48 @@ class PlantInfoViewController: UIViewController {
     var shoppingCartButton = ShoppingCartButton(type: .normal, tint: .systemBackground, background: .lightGreenBackground)
     
     var backButton: UIButton = {
-        let backButton = UIButton()
-        backButton.setImage(UIImage(systemName: "arrow.left", withConfiguration: UIImage.SymbolConfiguration(scale: .large)), for: .normal)
-        backButton.tintColor = .white
-        backButton.addTarget(self, action: #selector(backButtonPressed(_:)), for: .touchUpInside)
-        return backButton
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "arrow.left", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .thin)), for: .normal)
+        button.tintColor = .white
+        button.addTarget(self, action: #selector(backButtonPressed(_:)), for: .touchUpInside)
+        return button
     }()
     
-    var indoorLabel: UILabel = {
-        let indoorLabel = UILabel()
-        indoorLabel.text = "INDOOR"
-        return indoorLabel
+    var categoryLabel: UILabel = {
+        let label = UILabel()
+        label.text = "INDOOR"
+        label.textColor = .lightGreenText
+        label.font = getScaledFont(for: .bold, size: .label)
+        return label
+    }()
+    
+    var nameLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = getScaledFont(for: .bold, size: .title)
+        return label
+    }()
+    
+    var fromLabel: UILabel = {
+        let label = UILabel()
+        label.text = "FROM"
+        label.textColor = .lightGreenText
+        label.font = getScaledFont(for: .bold, size: .label)
+        return label
+    }()
+    
+    var priceLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = getScaledFont(for: .regular, size: .info)
+        return label
     }()
     
     var plant: Plant! {
         didSet {
-//            label.text = plant.name
+            categoryLabel.text = plant.category.rawValue.uppercased()
+            nameLabel.text = plant.name
+            priceLabel.text = "$\(plant.price)"
         }
     }
     
@@ -51,7 +77,10 @@ class PlantInfoViewController: UIViewController {
         let topLevelViews = [
             backButton,
             shoppingCartButton,
-            indoorLabel,
+            categoryLabel,
+            nameLabel,
+            fromLabel,
+            priceLabel,
         ]
         
         for view in topLevelViews {
@@ -61,16 +90,25 @@ class PlantInfoViewController: UIViewController {
     
     private func setConstraints() {
         NSLayoutConstraint.activateWithAutolayout(constraints: [
-            backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: spacingConstant),
-            backButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant),
+            backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: spacingConstant / 2),
+            backButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant - 10),
             backButton.widthAnchor.constraint(equalToConstant: 50),
             backButton.heightAnchor.constraint(equalToConstant: 50),
             
-            shoppingCartButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: spacingConstant),
-            shoppingCartButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -spacingConstant),
+            shoppingCartButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: spacingConstant / 2),
+            shoppingCartButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -smallerSpacingConstant),
 
-            indoorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            indoorLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            categoryLabel.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: spacingConstant / 2),
+            categoryLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant),
+            
+            nameLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor),
+            nameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant),
+            
+            fromLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: smallerSpacingConstant),
+            fromLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant),
+            
+            priceLabel.topAnchor.constraint(equalTo: fromLabel.bottomAnchor),
+            priceLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant),
         ])
     }
     

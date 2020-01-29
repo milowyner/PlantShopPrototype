@@ -37,7 +37,7 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
         let titleLabel = UILabel()
         titleLabel.text = "Top Picks"
         titleLabel.textColor = .label
-        titleLabel.font = getScaledFont(for: Font.regular, size: .title)
+        titleLabel.font = getScaledFont(for: .regular, size: .title)
         titleLabel.adjustsFontForContentSizeCategory = true
         return titleLabel
     }()
@@ -58,14 +58,14 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
         let descriptionLabel = UILabel()
         descriptionLabel.text = "Description"
         descriptionLabel.textColor = .label
-        descriptionLabel.font = getScaledFont(for: Font.regular, size: .headline)
+        descriptionLabel.font = getScaledFont(for: .regular, size: .headline)
         return descriptionLabel
     }()
     
     let descriptionBodyLabel: UILabel = {
         let descriptionBodyLabel = UILabel()
         descriptionBodyLabel.textColor = .secondaryLabel
-        descriptionBodyLabel.font = getScaledFont(for: Font.regular, size: .body)
+        descriptionBodyLabel.font = getScaledFont(for: .regular, size: .body)
         descriptionBodyLabel.numberOfLines = 0
         return descriptionBodyLabel
     }()
@@ -187,7 +187,7 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
     private func showNothingFoundLabel() {
         nothingFoundLabel.text = "Nothing found."
         nothingFoundLabel.textColor = .secondaryLabel
-        nothingFoundLabel.font = getScaledFont(for: .bold, size: .price)
+        nothingFoundLabel.font = getScaledFont(for: .bold, size: .info)
         
         view.addSubview(nothingFoundLabel)
         

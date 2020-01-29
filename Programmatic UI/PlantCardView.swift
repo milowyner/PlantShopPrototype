@@ -70,7 +70,7 @@ class PlantCardView: UIButton {
     private func setupFromLabel() {
         fromLabel.text = "FROM"
         fromLabel.textColor = UIColor.lightGreenText
-        fromLabel.font = getScaledFont(for: Font.camptonBold, size: .caption)
+        fromLabel.font = getScaledFont(for: .camptonBold, size: .label)
         
         addSubview(fromLabel)
         
@@ -83,7 +83,7 @@ class PlantCardView: UIButton {
     private func setupPriceLabel(with price: Int) {
         priceLabel.text = "$\(price)"
         priceLabel.textColor = .white
-        priceLabel.font = getScaledFont(for: .regular, size: .price)
+        priceLabel.font = getScaledFont(for: .regular, size: .info)
         
         addSubview(priceLabel)
         
@@ -110,7 +110,7 @@ class PlantCardView: UIButton {
     private func setupCategoryLabel(with category: String) {
         categoryLabel.text = category.uppercased()
         categoryLabel.textColor = UIColor.lightGreenText
-        categoryLabel.font = getScaledFont(for: .bold, size: .caption)
+        categoryLabel.font = getScaledFont(for: .bold, size: .label)
         
         addSubview(categoryLabel)
         
@@ -124,7 +124,7 @@ class PlantCardView: UIButton {
     private func setupNameLabel(with name: String) {
         nameLabel.text = name
         nameLabel.textColor = .white
-        nameLabel.font = getScaledFont(for: .bold, size: .price)
+        nameLabel.font = getScaledFont(for: .bold, size: .info)
         
         addSubview(nameLabel)
         
