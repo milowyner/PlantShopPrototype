@@ -13,7 +13,6 @@ class PlantInfoViewController: UIViewController {
     let backButton = UIButton()
     let shoppingCartButton = ShoppingCartButton(type: .normal, tint: .systemBackground, background: .lightGreenBackground)
     let categoryLabel = UILabel()
-    let nameLabel = UILabel()
     let fromLabel = UILabel()
     let priceLabel = UILabel()
     let sizesLabel = UILabel()
@@ -24,15 +23,18 @@ class PlantInfoViewController: UIViewController {
     let allToKnowBodyLabel = UILabel()
     let detailsLabel = UILabel()
     let detailsBodyLabel = UILabel()
+    let plantImageView = UIImageView()
+    let nameLabel = UILabel()
     
     var plant: Plant! {
         didSet {
             categoryLabel.text = plant.category.rawValue
-            nameLabel.text = "Ficus"
+            nameLabel.text = plant.name
             priceLabel.text = "$\(plant.price)"
             sizesInfoLabel.text = plant.sizes[0].rawValue
             allToKnowBodyLabel.attributedText = .increasedLineHeight(string: plant.description)
             detailsBodyLabel.attributedText = .increasedLineHeight(string: "Plant height: 35-45cm;\nNursery pot width: 12cm")
+            plantImageView.image = plant.image
         }
     }
     
@@ -62,11 +64,6 @@ class PlantInfoViewController: UIViewController {
         categoryLabel.textColor = .lightGreenText
         categoryLabel.font = getScaledFont(for: .bold, size: .label)
         view.addSubview(categoryLabel)
-        
-        // nameLabel
-        nameLabel.textColor = .white
-        nameLabel.font = getScaledFont(for: .bold, size: .title)
-        view.addSubview(nameLabel)
         
         // fromLabel
         fromLabel.text = "FROM"
@@ -121,6 +118,15 @@ class PlantInfoViewController: UIViewController {
         detailsBodyLabel.font = getScaledFont(for: .regular, size: .body)
         detailsBodyLabel.numberOfLines = 0
         view.addSubview(detailsBodyLabel)
+        
+        // plantImageView
+        plantImageView.contentMode = .scaleAspectFill
+        view.addSubview(plantImageView)
+        
+        // nameLabel
+        nameLabel.textColor = .white
+        nameLabel.font = getScaledFont(for: .bold, size: .title)
+        view.addSubview(nameLabel)
     }
     
     private func setConstraints() {
@@ -137,10 +143,7 @@ class PlantInfoViewController: UIViewController {
 
             categoryLabel.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: 20),
             categoryLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            
-            nameLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor),
-            nameLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            
+                        
             fromLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 30),
             fromLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             
@@ -174,7 +177,15 @@ class PlantInfoViewController: UIViewController {
             
             detailsBodyLabel.topAnchor.constraint(equalToSystemSpacingBelow: detailsLabel.bottomAnchor, multiplier: 1),
             detailsBodyLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            detailsBodyLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor)
+            detailsBodyLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor),
+            
+            plantImageView.topAnchor.constraint(equalTo: shoppingCartButton.bottomAnchor, constant: 20),
+            plantImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.67),
+            plantImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            plantImageView.bottomAnchor.constraint(equalTo: bottomBackgroundView.topAnchor, constant: 75),
+            
+            nameLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor),
+            nameLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor)
         ])
     }
     
