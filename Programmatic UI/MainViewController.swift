@@ -128,10 +128,7 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
         plantScrollViewContainer.addGestureRecognizer(plantScrollView.panGestureRecognizer)
         
         // Description body label setup
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 4
-        let attributedString = NSMutableAttributedString(string: visiblePlants[0].description, attributes: [.paragraphStyle: paragraphStyle])
-        descriptionBodyLabel.attributedText = attributedString
+        descriptionBodyLabel.attributedText = .increasedLineHeight(string: visiblePlants[0].description)
     }
     
     // MARK: - Delegate Methods
