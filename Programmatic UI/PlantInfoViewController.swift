@@ -10,15 +10,25 @@ import UIKit
 
 class PlantInfoViewController: UIViewController {
     
-    var label: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    var shoppingCartButton = ShoppingCartButton(type: .normal, tint: .systemBackground, background: .lightGreenBackground)
+    
+    var backButton: UIButton = {
+        let backButton = UIButton()
+        backButton.setImage(UIImage(systemName: "arrow.left", withConfiguration: UIImage.SymbolConfiguration(scale: .large)), for: .normal)
+        backButton.tintColor = .white
+        backButton.addTarget(self, action: #selector(backButtonPressed(_:)), for: .touchUpInside)
+        return backButton
+    }()
+    
+    var indoorLabel: UILabel = {
+        let indoorLabel = UILabel()
+        indoorLabel.text = "INDOOR"
+        return indoorLabel
     }()
     
     var plant: Plant! {
         didSet {
-            label.text = plant.name
+//            label.text = plant.name
         }
     }
     
@@ -29,21 +39,45 @@ class PlantInfoViewController: UIViewController {
             fatalError("Plant can't be nil")
         }
         
-        view.backgroundColor = .white
+        view.backgroundColor = .plantBackground
         
         setupViews()
         setConstraints()
     }
     
+    // MARK: - View Setup
+    
     private func setupViews() {
-        view.addSubview(label)
+        let topLevelViews = [
+            backButton,
+            shoppingCartButton,
+            indoorLabel,
+        ]
+        
+        for view in topLevelViews {
+            self.view.addSubview(view)
+        }
     }
     
     private func setConstraints() {
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        NSLayoutConstraint.activateWithAutolayout(constraints: [
+            backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: spacingConstant),
+            backButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant),
+            backButton.widthAnchor.constraint(equalToConstant: 50),
+            backButton.heightAnchor.constraint(equalToConstant: 50),
+            
+            shoppingCartButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: spacingConstant),
+            shoppingCartButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -spacingConstant),
+
+            indoorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            indoorLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
+    }
+    
+    // MARK: - Actions
+    
+    @objc private func backButtonPressed(_ sender: UIButton) {
+        dismiss(animated: false)
     }
 
 }

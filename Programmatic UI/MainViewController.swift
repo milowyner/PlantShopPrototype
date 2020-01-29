@@ -31,17 +31,7 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
         return menuButton
     }()
     
-    let shoppingCartButton: UIButton = {
-        let shoppingCartButton = UIButton()
-        shoppingCartButton.setImage(UIImage(systemName: "cart", withConfiguration: UIImage.SymbolConfiguration(scale: .large)), for: .normal)
-        shoppingCartButton.tintColor = .label
-        shoppingCartButton.backgroundColor = .secondarySystemFill
-        shoppingCartButton.layer.cornerRadius = 25
-        shoppingCartButton.addTarget(self, action: #selector(shoppingCartButtonTouchDown), for: .touchDown)
-        shoppingCartButton.addTarget(self, action: #selector(shoppingCartButtonTouchUp), for: .touchUpInside)
-        shoppingCartButton.addTarget(self, action: #selector(shoppingCartButtonTouchUp), for: .touchDragExit)
-        return shoppingCartButton
-    }()
+    let shoppingCartButton = ShoppingCartButton(type: .normal, tint: .label, background: .secondarySystemFill)
     
     let titleLabel: UILabel = {
         let titleLabel = UILabel()
@@ -144,20 +134,6 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
         descriptionBodyLabel.attributedText = attributedString
     }
     
-    // MARK: - Actions
-    
-    @objc func shoppingCartButtonTouchDown() {
-        UIView.animate(withDuration: 0.1, animations: {
-            self.shoppingCartButton.transform = self.shoppingCartButton.transform.scaledBy(x: 1.3, y: 1.3)
-        })
-    }
-    
-    @objc func shoppingCartButtonTouchUp() {
-        UIView.animate(withDuration: 0.2, animations: {
-            self.shoppingCartButton.transform = CGAffineTransform.identity
-        })
-    }
-    
     // MARK: - Delegate Methods
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -187,8 +163,8 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
     func plantCardPressed(_ sender: PlantCardView) {
         let plantInfoVC = PlantInfoViewController()
         plantInfoVC.plant = sender.plant
-        
-        show(plantInfoVC, sender: self)
+        plantInfoVC.modalPresentationStyle = .fullScreen
+        present(plantInfoVC, animated: false)
     }
     
     // MARK: - Private Functions
@@ -256,8 +232,6 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
             menuButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant - 10),
             
             // Shopping cart button
-            shoppingCartButton.widthAnchor.constraint(equalToConstant: 50),
-            shoppingCartButton.heightAnchor.constraint(equalToConstant: 50),
             shoppingCartButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: spacingConstant / 2),
             shoppingCartButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -smallerSpacingConstant),
             

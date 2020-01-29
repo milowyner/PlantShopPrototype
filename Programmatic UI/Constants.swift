@@ -33,8 +33,9 @@ func getScaledFont(for name: Font, size: CGFloat) -> UIFont {
 }
 
 extension UIColor {
-    static let plantBackground = UIColor(named: "Plant Background")
-    static let lightGreenText = UIColor(named: "Light Green Text")
+    static let plantBackground = UIColor(named: "Plant Background")!
+    static let lightGreenBackground = UIColor(named: "Light Green Background")!
+    static let lightGreenText = UIColor(named: "Light Green Text")!
 }
 
 extension CGFloat {

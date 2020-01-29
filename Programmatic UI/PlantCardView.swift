@@ -17,7 +17,7 @@ class PlantCardView: UIButton {
     var categoryLabel = UILabel()
     var nameLabel = UILabel()
     var requirementsBar = UIImageView()
-    var addToCartButton = UIButton()
+    var addToCartButton = ShoppingCartButton(type: .add, tint: .systemBackground, background: .label)
     
     static let cardWidth: CGFloat = 220
     static let cardHeight: CGFloat = 355
@@ -152,38 +152,28 @@ class PlantCardView: UIButton {
     }
     
     private func setupAddToCartButton() {
-        addToCartButton.setImage(UIImage(systemName: "cart.badge.plus", withConfiguration: UIImage.SymbolConfiguration(scale: .large)), for: .normal)
-        addToCartButton.tintColor = .systemBackground
-        addToCartButton.backgroundColor = .label
-        addToCartButton.layer.cornerRadius = 25
-        addToCartButton.addTarget(self, action: #selector(addToCartButtonTouchDown), for: .touchDown)
-        addToCartButton.addTarget(self, action: #selector(addToCartButtonTouchUp), for: .touchUpInside)
-        addToCartButton.addTarget(self, action: #selector(addToCartButtonTouchUp), for: .touchDragExit)
-        
         addSubview(addToCartButton)
         
         // Set constraints
         addToCartButton.translatesAutoresizingMaskIntoConstraints = false
-        addToCartButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        addToCartButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         addToCartButton.centerYAnchor.constraint(equalTo: backgroundView.bottomAnchor).isActive = true
         addToCartButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     }
     
     // MARK: - Actions
     
-    @objc func addToCartButtonTouchDown() {
-        UIView.animate(withDuration: 0.1, animations: {
-            self.addToCartButton.transform = self.addToCartButton.transform.scaledBy(x: 1.3, y: 1.3)
-        })
-    }
-    
-    @objc func addToCartButtonTouchUp() {
-        print(#function)
-        UIView.animate(withDuration: 0.2, animations: {
-            self.addToCartButton.transform = CGAffineTransform.identity
-        })
-    }
+//    @objc func addToCartButtonTouchDown() {
+//        UIView.animate(withDuration: 0.1, animations: {
+//            self.addToCartButton.transform = self.addToCartButton.transform.scaledBy(x: 1.3, y: 1.3)
+//        })
+//    }
+//
+//    @objc func addToCartButtonTouchUp() {
+//        print(#function)
+//        UIView.animate(withDuration: 0.2, animations: {
+//            self.addToCartButton.transform = CGAffineTransform.identity
+//        })
+//    }
     
     @objc func backgroundPressed(_ sender: UIButton) {
         delegate?.plantCardPressed(self)
