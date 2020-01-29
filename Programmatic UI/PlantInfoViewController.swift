@@ -10,45 +10,12 @@ import UIKit
 
 class PlantInfoViewController: UIViewController {
     
-    var shoppingCartButton = ShoppingCartButton(type: .normal, tint: .systemBackground, background: .lightGreenBackground)
-    
-    var backButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "arrow.left", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .thin)), for: .normal)
-        button.tintColor = .white
-        button.addTarget(self, action: #selector(backButtonPressed(_:)), for: .touchUpInside)
-        return button
-    }()
-    
-    var categoryLabel: UILabel = {
-        let label = UILabel()
-        label.text = "INDOOR"
-        label.textColor = .lightGreenText
-        label.font = getScaledFont(for: .bold, size: .label)
-        return label
-    }()
-    
-    var nameLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        label.font = getScaledFont(for: .bold, size: .title)
-        return label
-    }()
-    
-    var fromLabel: UILabel = {
-        let label = UILabel()
-        label.text = "FROM"
-        label.textColor = .lightGreenText
-        label.font = getScaledFont(for: .bold, size: .label)
-        return label
-    }()
-    
-    var priceLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        label.font = getScaledFont(for: .regular, size: .info)
-        return label
-    }()
+    let backButton = UIButton()
+    let shoppingCartButton = ShoppingCartButton(type: .normal, tint: .systemBackground, background: .lightGreenBackground)
+    let categoryLabel = UILabel()
+    let nameLabel = UILabel()
+    let fromLabel = UILabel()
+    let priceLabel = UILabel()
     
     var plant: Plant! {
         didSet {
@@ -61,10 +28,6 @@ class PlantInfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard plant != nil else {
-            fatalError("Plant can't be nil")
-        }
-        
         view.backgroundColor = .plantBackground
         
         setupViews()
@@ -74,18 +37,36 @@ class PlantInfoViewController: UIViewController {
     // MARK: - View Setup
     
     private func setupViews() {
-        let topLevelViews = [
-            backButton,
-            shoppingCartButton,
-            categoryLabel,
-            nameLabel,
-            fromLabel,
-            priceLabel,
-        ]
+        // backButton
+        backButton.setImage(UIImage(systemName: "arrow.left", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .thin)), for: .normal)
+        backButton.tintColor = .white
+        backButton.addTarget(self, action: #selector(backButtonPressed(_:)), for: .touchUpInside)
+        view.addSubview(backButton)
         
-        for view in topLevelViews {
-            self.view.addSubview(view)
-        }
+        // shoppingCartButton
+        view.addSubview(shoppingCartButton)
+        
+        // categoryLabel
+        categoryLabel.text = "INDOOR"
+        categoryLabel.textColor = .lightGreenText
+        categoryLabel.font = getScaledFont(for: .bold, size: .label)
+        view.addSubview(categoryLabel)
+        
+        // nameLabel
+        nameLabel.textColor = .white
+        nameLabel.font = getScaledFont(for: .bold, size: .title)
+        view.addSubview(nameLabel)
+        
+        // fromLabel
+        fromLabel.text = "FROM"
+        fromLabel.textColor = .lightGreenText
+        fromLabel.font = getScaledFont(for: .bold, size: .label)
+        view.addSubview(fromLabel)
+        
+        // priceLabel
+        priceLabel.textColor = .white
+        priceLabel.font = getScaledFont(for: .regular, size: .info)
+        view.addSubview(priceLabel)
     }
     
     private func setConstraints() {
