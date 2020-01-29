@@ -16,12 +16,16 @@ class PlantInfoViewController: UIViewController {
     let nameLabel = UILabel()
     let fromLabel = UILabel()
     let priceLabel = UILabel()
+    let sizesLabel = UILabel()
+    let sizesInfoLabel = UILabel()
+    let addToCartButton = ShoppingCartButton(type: .add, tint: .white, background: .black)
     
     var plant: Plant! {
         didSet {
-            categoryLabel.text = plant.category.rawValue.uppercased()
+            categoryLabel.text = plant.category.rawValue
             nameLabel.text = plant.name
             priceLabel.text = "$\(plant.price)"
+            sizesInfoLabel.text = plant.sizes[0].rawValue
         }
     }
     
@@ -30,13 +34,13 @@ class PlantInfoViewController: UIViewController {
         
         view.backgroundColor = .plantBackground
         
-        setupViews()
+        setUpViews()
         setConstraints()
     }
     
     // MARK: - View Setup
     
-    private func setupViews() {
+    private func setUpViews() {
         // backButton
         backButton.setImage(UIImage(systemName: "arrow.left", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .thin)), for: .normal)
         backButton.tintColor = .white
@@ -67,6 +71,20 @@ class PlantInfoViewController: UIViewController {
         priceLabel.textColor = .white
         priceLabel.font = getScaledFont(for: .regular, size: .info)
         view.addSubview(priceLabel)
+        
+        // sizesLabel
+        sizesLabel.text = "SIZES"
+        sizesLabel.textColor = .lightGreenText
+        sizesLabel.font = getScaledFont(for: .bold, size: .label)
+        view.addSubview(sizesLabel)
+        
+        // sizesInfoLabel
+        sizesInfoLabel.textColor = .white
+        sizesInfoLabel.font = getScaledFont(for: .regular, size: .info)
+        view.addSubview(sizesInfoLabel)
+        
+        // addToCartButton
+        view.addSubview(addToCartButton)
     }
     
     private func setConstraints() {
@@ -92,6 +110,15 @@ class PlantInfoViewController: UIViewController {
             
             priceLabel.topAnchor.constraint(equalTo: fromLabel.bottomAnchor),
             priceLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            
+            sizesLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 20),
+            sizesLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            
+            sizesInfoLabel.topAnchor.constraint(equalTo: sizesLabel.bottomAnchor),
+            sizesInfoLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            
+            addToCartButton.topAnchor.constraint(equalTo: sizesInfoLabel.bottomAnchor, constant: 30),
+            addToCartButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor)
         ])
     }
     

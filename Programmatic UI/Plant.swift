@@ -17,13 +17,13 @@ struct Plant {
     let description: String
     
     enum CategoryType: String {
-        case indoor
-        case outdoor
+        case indoor = "INDOOR"
+        case outdoor = "OUTDOOR"
     }
     
     enum Size: String {
-        case small
-        case medium
-        case large
+        case small = "Small"
+        case medium = "Medium"
+        case large = "Large"
     }
 }
