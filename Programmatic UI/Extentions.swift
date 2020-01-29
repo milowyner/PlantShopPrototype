@@ -9,7 +9,6 @@
 import UIKit
 
 extension NSLayoutConstraint {
-
     static func activateWithAutolayout(constraints: [NSLayoutConstraint]) {
         for constraint in constraints {
             if let view = constraint.firstItem as? UIView {
@@ -18,4 +17,8 @@ extension NSLayoutConstraint {
         }
         activate(constraints)
     }
+}
+
+extension NSDirectionalEdgeInsets {
+    static let customMargins = NSDirectionalEdgeInsets(top: 20, leading: 40, bottom: 0, trailing: 30)
 }

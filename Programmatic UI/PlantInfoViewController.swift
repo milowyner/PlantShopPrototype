@@ -89,26 +89,28 @@ class PlantInfoViewController: UIViewController {
     }
     
     private func setConstraints() {
+        view.directionalLayoutMargins = .customMargins
+
         NSLayoutConstraint.activateWithAutolayout(constraints: [
-            backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: spacingConstant / 2),
-            backButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant - 10),
+            backButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            backButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor, constant: -10),
             backButton.widthAnchor.constraint(equalToConstant: 50),
             backButton.heightAnchor.constraint(equalToConstant: 50),
             
-            shoppingCartButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: spacingConstant / 2),
-            shoppingCartButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -smallerSpacingConstant),
+            shoppingCartButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            shoppingCartButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
 
-            categoryLabel.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: spacingConstant / 2),
-            categoryLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant),
+            categoryLabel.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: 20),
+            categoryLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             
             nameLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor),
-            nameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant),
+            nameLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             
-            fromLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: smallerSpacingConstant),
-            fromLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant),
+            fromLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 30),
+            fromLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             
             priceLabel.topAnchor.constraint(equalTo: fromLabel.bottomAnchor),
-            priceLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant),
+            priceLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
         ])
     }
     
