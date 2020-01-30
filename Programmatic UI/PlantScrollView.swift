@@ -67,5 +67,20 @@ class PlantScrollView: UIScrollView, PlantCardViewDelegate {
     @objc func plantCardPressed(_ sender: PlantCardView) {
         (delegate as! PlantCardViewDelegate).plantCardPressed(sender)
     }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if clipsToBounds || isHidden || alpha == 0 {
+            return nil
+        }
+        
+        for subview in subviews.reversed() {
+            let subPoint = subview.convert(point, from: self)
+            if let result = subview.hitTest(subPoint, with: event) {
+                return result
+            }
+        }
+
+        return nil
+    }
         
 }
