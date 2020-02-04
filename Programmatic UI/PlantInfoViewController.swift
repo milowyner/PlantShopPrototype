@@ -95,6 +95,11 @@ class PlantInfoViewController: UIViewController {
         bottomBackgroundView.layer.cornerRadius = 25
         view.addSubview(bottomBackgroundView)
         
+        //
+        // TEMPORARY!!!
+        //
+        bottomBackgroundView.isHidden = true
+        
         // allToKnowLabel
         allToKnowLabel.text = "All to know..."
         allToKnowLabel.textColor = .label
@@ -122,6 +127,11 @@ class PlantInfoViewController: UIViewController {
         // plantImageView
         plantImageView.contentMode = .scaleAspectFill
         view.addSubview(plantImageView)
+        
+        //
+        // TEMPORARY!!!
+        //
+        plantImageView.isHidden = true
         
         // nameLabel
         nameLabel.textColor = .white
@@ -194,5 +204,31 @@ class PlantInfoViewController: UIViewController {
     @objc private func backButtonPressed(_ sender: UIButton) {
         dismiss(animated: false)
     }
+    
+    // MARK: - Animations
+    
+//    private func performAnimations() {
+//        let transformedViewPairs: [(UIView, UIView)] = [
+//            (nameLabel, plantCardView.nameLabel),
+//            (priceLabel, plantCardView.priceLabel)
+//        ]
+//        
+//        var newCenters = [CGPoint]()
+//        
+//        for (newView, oldView) in transformedViewPairs {
+//            let scaleX = oldView.frame.width / newView.frame.width
+//            let scaleY = oldView.frame.height / newView.frame.height
+//            newView.transform = .init(scaleX: scaleX, y: scaleY)
+//            newCenters.append(newView.center)
+//            newView.center = plantCardView.convert(oldView.center, to: view.coordinateSpace)
+//        }
+//        
+//        UIView.animate(withDuration: 1) {
+//            for (index, (newView, _)) in transformedViewPairs.enumerated() {
+//                newView.center = newCenters[index]
+//                newView.transform = .identity
+//            }
+//        }
+//    }
 
 }

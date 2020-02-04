@@ -19,7 +19,8 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
     ]
     
     var selectedCategory: PlantCategory = .top
-    
+    var selectedPlantCardView: PlantCardView?
+
     // Used to animate the description change of the current plant card being displayed
     var pageIndexOfPlantScrollView = 0
     
@@ -158,10 +159,14 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
     }
     
     func plantCardPressed(_ sender: PlantCardView) {
+        selectedPlantCardView = sender
+        
         let plantInfoVC = PlantInfoViewController()
         plantInfoVC.plant = sender.plant
-        plantInfoVC.modalPresentationStyle = .fullScreen
-        present(plantInfoVC, animated: false)
+        plantInfoVC.modalPresentationStyle = .custom
+        plantInfoVC.transitioningDelegate = TransitioningDelegate.shared
+        
+        present(plantInfoVC, animated: true)
     }
     
     // MARK: - Private Functions

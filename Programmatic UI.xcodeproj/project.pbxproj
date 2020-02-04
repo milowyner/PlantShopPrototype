@@ -20,7 +20,9 @@
 		053B12A623C540B80059F648 /* CategoryScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053B12A523C540B80059F648 /* CategoryScrollView.swift */; };
 		053B12A823C5441B0059F648 /* PlantScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053B12A723C5441B0059F648 /* PlantScrollView.swift */; };
 		053B12AA23C544950059F648 /* PlantCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053B12A923C544950059F648 /* PlantCardView.swift */; };
+		053FBE8F23E7CE1E00779420 /* TransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053FBE8E23E7CE1E00779420 /* TransitioningDelegate.swift */; };
 		054A712423DBB57F007EBADE /* ShoppingCartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054A712323DBB57F007EBADE /* ShoppingCartButton.swift */; };
+		05576CB923E7D0B700DB2138 /* FromPlantInfoVCToMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05576CB823E7D0B700DB2138 /* FromPlantInfoVCToMainVC.swift */; };
 		0574A28D23D7980100DB6C6B /* PlantInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0574A28C23D7980100DB6C6B /* PlantInfoViewController.swift */; };
 		058F898523C6D2B100DE8D77 /* Muli-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 058F898323C6D2B100DE8D77 /* Muli-Regular.ttf */; };
 		058F898623C6D2B100DE8D77 /* Muli-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 058F898423C6D2B100DE8D77 /* Muli-Bold.ttf */; };
@@ -33,6 +35,7 @@
 		058F899423C6DDFC00DE8D77 /* Campton-BoldDEMO.otf in Resources */ = {isa = PBXBuildFile; fileRef = 058F899323C6DDFC00DE8D77 /* Campton-BoldDEMO.otf */; };
 		058F899623C7B37200DE8D77 /* Plant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058F899523C7B37200DE8D77 /* Plant.swift */; };
 		05A6B40923E102C300B4F755 /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A6B40823E102C300B4F755 /* Extentions.swift */; };
+		05EB595523E626EB00F326FF /* FromMainVCToPlantInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05EB595423E626EB00F326FF /* FromMainVCToPlantInfoVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,7 +54,9 @@
 		053B12A523C540B80059F648 /* CategoryScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryScrollView.swift; sourceTree = "<group>"; };
 		053B12A723C5441B0059F648 /* PlantScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantScrollView.swift; sourceTree = "<group>"; };
 		053B12A923C544950059F648 /* PlantCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantCardView.swift; sourceTree = "<group>"; };
+		053FBE8E23E7CE1E00779420 /* TransitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitioningDelegate.swift; sourceTree = "<group>"; };
 		054A712323DBB57F007EBADE /* ShoppingCartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingCartButton.swift; sourceTree = "<group>"; };
+		05576CB823E7D0B700DB2138 /* FromPlantInfoVCToMainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FromPlantInfoVCToMainVC.swift; sourceTree = "<group>"; };
 		0574A28C23D7980100DB6C6B /* PlantInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlantInfoViewController.swift; sourceTree = "<group>"; };
 		058F898323C6D2B100DE8D77 /* Muli-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Muli-Regular.ttf"; sourceTree = "<group>"; };
 		058F898423C6D2B100DE8D77 /* Muli-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Muli-Bold.ttf"; sourceTree = "<group>"; };
@@ -64,6 +69,7 @@
 		058F899323C6DDFC00DE8D77 /* Campton-BoldDEMO.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Campton-BoldDEMO.otf"; sourceTree = "<group>"; };
 		058F899523C7B37200DE8D77 /* Plant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plant.swift; sourceTree = "<group>"; };
 		05A6B40823E102C300B4F755 /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
+		05EB595423E626EB00F326FF /* FromMainVCToPlantInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FromMainVCToPlantInfoVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +109,9 @@
 				0574A28C23D7980100DB6C6B /* PlantInfoViewController.swift */,
 				053B12A723C5441B0059F648 /* PlantScrollView.swift */,
 				053B12A923C544950059F648 /* PlantCardView.swift */,
+				053FBE8E23E7CE1E00779420 /* TransitioningDelegate.swift */,
+				05EB595423E626EB00F326FF /* FromMainVCToPlantInfoVC.swift */,
+				05576CB823E7D0B700DB2138 /* FromPlantInfoVCToMainVC.swift */,
 				058F899523C7B37200DE8D77 /* Plant.swift */,
 				054A712323DBB57F007EBADE /* ShoppingCartButton.swift */,
 				0522A01F23C3F3E200F04D5E /* Constants.swift */,
@@ -229,6 +238,9 @@
 				0574A28D23D7980100DB6C6B /* PlantInfoViewController.swift in Sources */,
 				05A6B40923E102C300B4F755 /* Extentions.swift in Sources */,
 				053B12A823C5441B0059F648 /* PlantScrollView.swift in Sources */,
+				05EB595523E626EB00F326FF /* FromMainVCToPlantInfoVC.swift in Sources */,
+				053FBE8F23E7CE1E00779420 /* TransitioningDelegate.swift in Sources */,
+				05576CB923E7D0B700DB2138 /* FromPlantInfoVCToMainVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
