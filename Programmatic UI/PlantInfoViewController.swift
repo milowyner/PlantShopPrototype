@@ -10,6 +10,7 @@ import UIKit
 
 class PlantInfoViewController: UIViewController {
     
+    let backgroundView = UIView()
     let backButton = UIButton()
     let shoppingCartButton = ShoppingCartButton(type: .normal, tint: .systemBackground, background: .lightGreenBackground)
     let categoryLabel = UILabel()
@@ -41,7 +42,7 @@ class PlantInfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .plantBackground
+        view.backgroundColor = .clear
         
         setUpViews()
         setConstraints()
@@ -50,6 +51,10 @@ class PlantInfoViewController: UIViewController {
     // MARK: - View Setup
     
     private func setUpViews() {
+        // backgroundView
+        backgroundView.backgroundColor = .plantBackground
+        view.addSubview(backgroundView)
+        
         // backButton
         backButton.setImage(UIImage(systemName: "arrow.left", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .thin)), for: .normal)
         backButton.tintColor = .white
@@ -141,8 +146,14 @@ class PlantInfoViewController: UIViewController {
     
     private func setConstraints() {
         view.directionalLayoutMargins = .customMargins
-
+        
+        let cornerRadiusOffset = backgroundView.layer.cornerRadius - cos(CGFloat.pi / 4) * backgroundView.layer.cornerRadius
         NSLayoutConstraint.activateWithAutolayout(constraints: [
+            backgroundView.topAnchor.constraint(equalTo: view.topAnchor, constant: -cornerRadiusOffset),
+            backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -cornerRadiusOffset),
+            backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: cornerRadiusOffset),
+            backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: cornerRadiusOffset),
+            
             backButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             backButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor, constant: -10),
             backButton.widthAnchor.constraint(equalToConstant: 50),
@@ -202,7 +213,7 @@ class PlantInfoViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func backButtonPressed(_ sender: UIButton) {
-        dismiss(animated: false)
+        dismiss(animated: true)
     }
     
     // MARK: - Animations

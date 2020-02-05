@@ -163,6 +163,7 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
         
         let plantInfoVC = PlantInfoViewController()
         plantInfoVC.plant = sender.plant
+        plantInfoVC.backgroundView.layer.cornerRadius = sender.backgroundView.layer.cornerRadius * view.bounds.width / sender.backgroundView.bounds.width
         plantInfoVC.modalPresentationStyle = .custom
         plantInfoVC.transitioningDelegate = TransitioningDelegate.shared
         
