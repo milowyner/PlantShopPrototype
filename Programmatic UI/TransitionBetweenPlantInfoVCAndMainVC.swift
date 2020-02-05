@@ -48,6 +48,9 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
             translateAndScale(from: plantInfoVC.priceLabel, to: cardView.priceLabel)
             changeFrameAndCornerRadius(from: plantInfoVC.backgroundView, to: cardView.backgroundView)
             changeFrameAndCornerRadius(from: plantInfoVC.plantImageView, to: cardView.plantImage)
+            animatedViews.append(plantInfoVC.bottomBackgroundView)
+            initialFrames[plantInfoVC.bottomBackgroundView] = plantInfoVC.bottomBackgroundView.frame
+            plantInfoVC.bottomBackgroundView.frame.origin.y = plantInfoVC.detailsLabel.frame.origin.y - 20
         }
         
         // Add plantInfoVC to container view and update its subviews' frames
@@ -98,8 +101,8 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         if !view.transform.isIdentity {
             view.transform = .identity
         } else {
-            view.frame = initialFrames[view]!
-            view.layer.cornerRadius = initialCornerRadiuses[view]!
+            view.frame = initialFrames[view] ?? view.frame
+            view.layer.cornerRadius = initialCornerRadiuses[view] ?? view.layer.cornerRadius
         }
     }
     
