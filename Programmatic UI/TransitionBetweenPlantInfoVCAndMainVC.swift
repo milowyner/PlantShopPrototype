@@ -13,6 +13,8 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
     private let duration: TimeInterval = 0.5
     
     private var transformedViewPairs = [(UIView, UIView)]()
+    private var initialFrames = [UIView: CGRect]()
+    private var initialCornerRadiuses = [UIView: CGFloat]()
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
@@ -37,22 +39,29 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         }
         guard let cardView = mainVC.selectedPlantCardView else { fatalError("No card view selected") }
         
+        // Local function that moves views into place
+        func moveViews() {
+            for (newView, oldView) in transformedViewPairs {
+                newView.translateAndScale(to: oldView)
+            }
+            initialFrames[plantInfoVC.backgroundView] = plantInfoVC.backgroundView.frame
+            initialCornerRadiuses[plantInfoVC.backgroundView] = plantInfoVC.backgroundView.layer.cornerRadius
+            plantInfoVC.backgroundView.moveFrameAndCornerRadius(to: cardView.backgroundView)
+        }
+        
         // Add plantInfoVC to container view and update its subviews' frames
         transitionContext.containerView.addSubview(plantInfoVC.view)
         plantInfoVC.view.layoutIfNeeded()
         
         // Set view pairs to transition to/from
         transformedViewPairs = [
-            (plantInfoVC.backgroundView, cardView.backgroundView),
             (plantInfoVC.nameLabel, cardView.nameLabel),
             (plantInfoVC.priceLabel, cardView.priceLabel)
         ]
         
         if presentingPlantInfoVC {
             // Transform each plantInfoVC view to its mainVC counterpart
-            for (newView, oldView) in transformedViewPairs {
-                newView.translateAndScale(to: oldView)
-            }
+            moveViews()
         }
         
         UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: {
@@ -61,11 +70,11 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
                 for (view, _) in self.transformedViewPairs {
                     view.transform = .identity
                 }
+                plantInfoVC.backgroundView.frame = self.initialFrames[plantInfoVC.backgroundView]!
+                plantInfoVC.backgroundView.layer.cornerRadius = self.initialCornerRadiuses[plantInfoVC.backgroundView]!
             } else {
                 // Animate the transformation of each plantInfoVC view to its mainVC counterpart
-                for (newView, oldView) in self.transformedViewPairs {
-                    newView.translateAndScale(to: oldView)
-                }
+                moveViews()
             }
         }) { (completed) in
             transitionContext.completeTransition(completed)
@@ -75,33 +84,20 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
 }
 
 extension UIView {
-    func translateAndScale(to newView: UIView, keepingAspectRatio: Bool = false) {
+    func translateAndScale(to newView: UIView) {
         let newViewCenter = newView.superview!.convert(newView.center, to: superview!.coordinateSpace)
         let translateX = newViewCenter.x - self.center.x
         let translateY = newViewCenter.y - self.center.y
         
-        let scaleX: CGFloat
-        let scaleY: CGFloat
-        
-        if keepingAspectRatio {
-            let newViewAspectRatio = newView.bounds.width / newView.bounds.height
-            let selfAspectRatio = self.bounds.width / self.bounds.height
-            if newViewAspectRatio < selfAspectRatio {
-                // Set heights equal
-                scaleY = newView.bounds.height / self.bounds.height
-                scaleX = scaleY
-            } else {
-                // Set widths equal
-                scaleX = newView.bounds.width / self.bounds.width
-                scaleY = scaleX
-            }
-        } else {
-            scaleX = newView.bounds.width / self.bounds.width
-            scaleY = newView.bounds.height / self.bounds.height
-        }
-
-        
+        let scaleX = newView.bounds.width / self.bounds.width
+        let scaleY = newView.bounds.height / self.bounds.height
         
         self.transform = CGAffineTransform.identity.translatedBy(x: translateX, y: translateY).scaledBy(x: scaleX, y: scaleY)
+    }
+    
+    func moveFrameAndCornerRadius(to newView: UIView) {
+        let newViewFrame = newView.superview!.convert(newView.frame, to: superview!.coordinateSpace)
+        self.layer.cornerRadius = newView.layer.cornerRadius
+        self.frame = newViewFrame
     }
 }
