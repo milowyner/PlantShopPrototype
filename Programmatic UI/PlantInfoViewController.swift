@@ -98,12 +98,7 @@ class PlantInfoViewController: UIViewController {
         bottomBackgroundView.backgroundColor = .systemBackground
         bottomBackgroundView.layer.cornerRadius = 25
         view.addSubview(bottomBackgroundView)
-        
-        //
-        // TEMPORARY!!!
-        //
-        bottomBackgroundView.isHidden = true
-        
+                
         // allToKnowLabel
         allToKnowLabel.text = "All to know..."
         allToKnowLabel.textColor = .label
@@ -129,13 +124,8 @@ class PlantInfoViewController: UIViewController {
         view.addSubview(detailsBodyLabel)
         
         // plantImageView
-        plantImageView.contentMode = .scaleAspectFill
+        plantImageView.contentMode = .scaleAspectFit
         view.addSubview(plantImageView)
-        
-        //
-        // TEMPORARY!!!
-        //
-        plantImageView.isHidden = true
         
         // nameLabel
         nameLabel.textColor = .white
@@ -199,10 +189,9 @@ class PlantInfoViewController: UIViewController {
             detailsBodyLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             detailsBodyLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor),
             
-            plantImageView.topAnchor.constraint(equalTo: shoppingCartButton.bottomAnchor, constant: 20),
-            plantImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.67),
-            plantImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            plantImageView.bottomAnchor.constraint(equalTo: bottomBackgroundView.topAnchor, constant: 75),
+            plantImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9),
+            plantImageView.centerXAnchor.constraint(equalTo: view.trailingAnchor, constant: -view.bounds.width * 0.4),
+            plantImageView.bottomAnchor.constraint(equalTo: bottomBackgroundView.topAnchor, constant: 150),
             
             nameLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor),
             nameLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor)
@@ -214,31 +203,5 @@ class PlantInfoViewController: UIViewController {
     @objc private func backButtonPressed(_ sender: UIButton) {
         dismiss(animated: true)
     }
-    
-    // MARK: - Animations
-    
-//    private func performAnimations() {
-//        let transformedViewPairs: [(UIView, UIView)] = [
-//            (nameLabel, plantCardView.nameLabel),
-//            (priceLabel, plantCardView.priceLabel)
-//        ]
-//        
-//        var newCenters = [CGPoint]()
-//        
-//        for (newView, oldView) in transformedViewPairs {
-//            let scaleX = oldView.frame.width / newView.frame.width
-//            let scaleY = oldView.frame.height / newView.frame.height
-//            newView.transform = .init(scaleX: scaleX, y: scaleY)
-//            newCenters.append(newView.center)
-//            newView.center = plantCardView.convert(oldView.center, to: view.coordinateSpace)
-//        }
-//        
-//        UIView.animate(withDuration: 1) {
-//            for (index, (newView, _)) in transformedViewPairs.enumerated() {
-//                newView.center = newCenters[index]
-//                newView.transform = .identity
-//            }
-//        }
-//    }
 
 }

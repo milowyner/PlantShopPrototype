@@ -10,7 +10,7 @@ import UIKit
 
 class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedTransitioning {
         
-    private let duration: TimeInterval = 2
+    private let duration: TimeInterval = 0.5
     
     private var initialFrames = [UIView: CGRect]()
     private var initialCornerRadiuses = [UIView: CGFloat]()
@@ -47,6 +47,7 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
             translateAndScale(from: plantInfoVC.nameLabel, to: cardView.nameLabel)
             translateAndScale(from: plantInfoVC.priceLabel, to: cardView.priceLabel)
             changeFrameAndCornerRadius(from: plantInfoVC.backgroundView, to: cardView.backgroundView)
+            changeFrameAndCornerRadius(from: plantInfoVC.plantImageView, to: cardView.plantImage)
         }
         
         // Add plantInfoVC to container view and update its subviews' frames
