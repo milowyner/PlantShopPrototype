@@ -10,7 +10,7 @@ import UIKit
 
 class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedTransitioning {
         
-    private let duration: TimeInterval = 0.5
+    private let duration: TimeInterval = 2
     
     private var initialFrames = [UIView: CGRect]()
     private var initialCornerRadiuses = [UIView: CGFloat]()

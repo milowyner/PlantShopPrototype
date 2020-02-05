@@ -65,7 +65,6 @@ class PlantInfoViewController: UIViewController {
         view.addSubview(shoppingCartButton)
         
         // categoryLabel
-        categoryLabel.text = "INDOOR"
         categoryLabel.textColor = .lightGreenText
         categoryLabel.font = getScaledFont(for: .bold, size: .label)
         view.addSubview(categoryLabel)
