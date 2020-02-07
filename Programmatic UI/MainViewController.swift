@@ -262,7 +262,7 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
             // Descrtiption label
             descriptionLabel.topAnchor.constraint(equalToSystemSpacingBelow: plantScrollView.bottomAnchor, multiplier: 1),
             descriptionLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant),
-            descriptionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -spacingConstant),
+            descriptionLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -spacingConstant),
             
             // Description body label
             descriptionBodyLabel.topAnchor.constraint(equalToSystemSpacingBelow: descriptionLabel.bottomAnchor, multiplier: 1),

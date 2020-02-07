@@ -10,7 +10,7 @@ import UIKit
 
 class PlantCardView: UIButton {
     
-    private var fromLabel = UILabel()
+    var fromLabel = UILabel()
     var backgroundView = UIButton()
     var priceLabel = UILabel()
     var plantImage = UIImageView()

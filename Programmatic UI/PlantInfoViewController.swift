@@ -21,7 +21,7 @@ class PlantInfoViewController: UIViewController {
     let addToCartButton = ShoppingCartButton(type: .add, tint: .systemBackground, background: .label)
     let bottomBackgroundView = UIView()
     let allToKnowLabel = UILabel()
-    let allToKnowBodyLabel = UILabel()
+    let descriptionBodyLabel = UILabel()
     let detailsLabel = UILabel()
     let detailsBodyLabel = UILabel()
     let plantImageView = UIImageView()
@@ -33,7 +33,7 @@ class PlantInfoViewController: UIViewController {
             nameLabel.text = plant.name
             priceLabel.text = "$\(plant.price)"
             sizesInfoLabel.text = plant.sizes[0].rawValue
-            allToKnowBodyLabel.attributedText = .increasedLineHeight(string: plant.description)
+            descriptionBodyLabel.attributedText = .increasedLineHeight(string: plant.description)
             detailsBodyLabel.attributedText = .increasedLineHeight(string: "Plant height: 35-45cm;\nNursery pot width: 12cm")
             plantImageView.image = plant.image
         }
@@ -91,14 +91,14 @@ class PlantInfoViewController: UIViewController {
         sizesInfoLabel.font = getScaledFont(for: .regular, size: .info)
         view.addSubview(sizesInfoLabel)
         
-        // addToCartButton
-        view.addSubview(addToCartButton)
-        
         // bottomBackgroundView
         bottomBackgroundView.backgroundColor = .systemBackground
         bottomBackgroundView.layer.cornerRadius = 25
         view.addSubview(bottomBackgroundView)
-                
+        
+        // addToCartButton
+        view.addSubview(addToCartButton)
+        
         // allToKnowLabel
         allToKnowLabel.text = "All to know..."
         allToKnowLabel.textColor = .label
@@ -106,10 +106,10 @@ class PlantInfoViewController: UIViewController {
         view.addSubview(allToKnowLabel)
         
         // allToKnowBodyLabel
-        allToKnowBodyLabel.textColor = .secondaryLabel
-        allToKnowBodyLabel.font = getScaledFont(for: .regular, size: .body)
-        allToKnowBodyLabel.numberOfLines = 0
-        view.addSubview(allToKnowBodyLabel)
+        descriptionBodyLabel.textColor = .secondaryLabel
+        descriptionBodyLabel.font = getScaledFont(for: .regular, size: .body)
+        descriptionBodyLabel.numberOfLines = 0
+        view.addSubview(descriptionBodyLabel)
         
         // detailsLabel
         detailsLabel.text = "Details"
@@ -141,7 +141,7 @@ class PlantInfoViewController: UIViewController {
             backgroundView.topAnchor.constraint(equalTo: view.topAnchor, constant: -cornerRadiusOffset),
             backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -cornerRadiusOffset),
             backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: cornerRadiusOffset),
-            backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: cornerRadiusOffset),
+            backgroundView.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: 150),
             
             backButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             backButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor, constant: -10),
@@ -178,11 +178,11 @@ class PlantInfoViewController: UIViewController {
             allToKnowLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             allToKnowLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor),
             
-            allToKnowBodyLabel.topAnchor.constraint(equalTo: allToKnowLabel.bottomAnchor, constant: 20),
-            allToKnowBodyLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            allToKnowBodyLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor),
+            descriptionBodyLabel.topAnchor.constraint(equalTo: allToKnowLabel.bottomAnchor, constant: 20),
+            descriptionBodyLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            descriptionBodyLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor),
             
-            detailsLabel.topAnchor.constraint(equalTo: allToKnowBodyLabel.bottomAnchor, constant: 40),
+            detailsLabel.topAnchor.constraint(equalTo: descriptionBodyLabel.bottomAnchor, constant: 40),
             detailsLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             
             detailsBodyLabel.topAnchor.constraint(equalToSystemSpacingBelow: detailsLabel.bottomAnchor, multiplier: 1),
