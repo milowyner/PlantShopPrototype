@@ -221,6 +221,8 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
     // MARK: - Constraints
     
     private func setConstraints() {
+        view.directionalLayoutMargins = .customMargins
+        
         // Enable autolayout for every view
         for view in autoLayoutViews {
             view.translatesAutoresizingMaskIntoConstraints = false
@@ -232,16 +234,16 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
             menuButton.widthAnchor.constraint(equalToConstant: 50),
             menuButton.heightAnchor.constraint(equalToConstant: 50),
             menuButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: spacingConstant / 2),
-            menuButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant - 10),
+            menuButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor, constant: -10),
             
             // Shopping cart button
             shoppingCartButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: spacingConstant / 2),
-            shoppingCartButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -smallerSpacingConstant),
+            shoppingCartButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             
             // Title label
             titleLabel.topAnchor.constraint(equalTo: shoppingCartButton.bottomAnchor, constant: spacingConstant / 2),
-            titleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant),
-            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: spacingConstant),
+            titleLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor),
             
             // Category scroll view
             categoryScrollView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacingConstant),
@@ -259,15 +261,15 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
             plantScrollView.leadingAnchor.constraint(equalTo: plantScrollViewContainer.leadingAnchor, constant: spacingConstant),
             plantScrollView.widthAnchor.constraint(equalToConstant: PlantCardView.cardWidth + smallerSpacingConstant),
             
-            // Descrtiption label
+            // Description label
             descriptionLabel.topAnchor.constraint(equalToSystemSpacingBelow: plantScrollView.bottomAnchor, multiplier: 1),
-            descriptionLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant),
-            descriptionLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -spacingConstant),
+            descriptionLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            descriptionLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor),
             
             // Description body label
             descriptionBodyLabel.topAnchor.constraint(equalToSystemSpacingBelow: descriptionLabel.bottomAnchor, multiplier: 1),
-            descriptionBodyLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: spacingConstant),
-            descriptionBodyLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -spacingConstant)
+            descriptionBodyLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            descriptionBodyLabel.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
         ])
     }
     
