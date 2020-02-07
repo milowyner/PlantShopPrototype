@@ -57,20 +57,20 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         phaseOneViews.removeAll()
         phaseTwoViews.removeAll()
         
-        // If presenting, move views to final position
+        // If presenting, move views to starting position
         if presenting {
-            finalPositionPhaseOne()
-            finalPositionPhaseTwo()
+            startingPositionPhaseOne()
+            startingPositionPhaseTwo()
         }
         
         // Animate phase one
         UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: {
             if self.presenting {
-                // Animate views to starting position
-                self.startingPositionPhaseOne()
-            } else {
                 // Animate views to final position
                 self.finalPositionPhaseOne()
+            } else {
+                // Animate views to starting position
+                self.startingPositionPhaseOne()
             }
         }) { (completed) in
             self.cardView.addToCartButton.layer.opacity = 1
@@ -85,11 +85,11 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         // Animate phase two
         UIView.animate(withDuration: phaseTwoDuration, delay: phaseTwoDelay, options: .curveEaseOut, animations: {
             if self.presenting {
-                // Animate views to starting position
-                self.startingPositionPhaseTwo()
-            } else {
                 // Animate views to final position
                 self.finalPositionPhaseTwo()
+            } else {
+                // Animate views to starting position
+                self.startingPositionPhaseTwo()
             }
         }) { (completed) in
             if self.presenting {
@@ -99,7 +99,7 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
     }
     
     // Move views to final position for phase one
-    func finalPositionPhaseOne() {
+    func startingPositionPhaseOne() {
         phaseOneViews += [
             plantInfoVC.nameLabel,
             plantInfoVC.categoryLabel,
@@ -133,11 +133,11 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         translate(plantInfoVC.detailsLabel, by: descriptionTranslate.y)
         translate(plantInfoVC.detailsBodyLabel, by: descriptionTranslate.y)
         
-        fade(view: plantInfoVC.detailsLabel)
-        fade(view: plantInfoVC.detailsBodyLabel)
-        fade(view: cardView.fromLabel)
+        fadeOut(view: plantInfoVC.detailsLabel)
+        fadeOut(view: plantInfoVC.detailsBodyLabel)
+        fadeOut(view: plantInfoVC.allToKnowLabel)
         
-        crossDissolve(from: plantInfoVC.allToKnowLabel, to: mainVC.descriptionLabel)
+        fadeIn(view: cardView.fromLabel)
         
         initialFrames[plantInfoVC.bottomBackgroundView] = plantInfoVC.bottomBackgroundView.frame
         plantInfoVC.bottomBackgroundView.frame.origin.y = mainVC.plantScrollViewContainer.frame.maxY
@@ -146,7 +146,7 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
     }
     
     // Move views to final position for phase two
-    func finalPositionPhaseTwo() {
+    func startingPositionPhaseTwo() {
         phaseTwoViews += [
             plantInfoVC.fromLabel,
             plantInfoVC.priceLabel,
@@ -154,19 +154,19 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
             plantInfoVC.sizesInfoLabel
         ]
         
-        fade(view: plantInfoVC.fromLabel)
-        fade(view: plantInfoVC.priceLabel)
-        fade(view: plantInfoVC.sizesLabel)
-        fade(view: plantInfoVC.sizesInfoLabel)
+        fadeOut(view: plantInfoVC.fromLabel)
+        fadeOut(view: plantInfoVC.priceLabel)
+        fadeOut(view: plantInfoVC.sizesLabel)
+        fadeOut(view: plantInfoVC.sizesInfoLabel)
     }
     
-    private func startingPositionPhaseOne() {
+    private func finalPositionPhaseOne() {
         for view in phaseOneViews {
             resetView(view)
         }
     }
     
-    private func startingPositionPhaseTwo() {
+    private func finalPositionPhaseTwo() {
         for view in phaseTwoViews {
             resetView(view)
         }
@@ -207,14 +207,14 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         initialView.frame = newViewFrame
     }
     
-    private func fade(view: UIView) {
+    private func fadeOut(view: UIView) {
         initialOpacities[view] = view.layer.opacity
         view.layer.opacity = 0
     }
     
-    private func fade2(view: UIView) {
-        initialOpacities[view] = view.layer.opacity
-        view.layer.opacity = 0
+    private func fadeIn(view: UIView) {
+        initialOpacities[view] = 0
+        view.layer.opacity = 1
     }
     
     private func crossDissolve(from initialView: UIView, to newView: UIView) {
