@@ -57,6 +57,10 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         phaseOneViews.removeAll()
         phaseTwoViews.removeAll()
         
+        // Setup
+        cardView.addToCartButton.isHidden = true
+        cardView.backgroundView.isHidden = true
+        
         // If presenting, move views to starting position
         if presenting {
             startingPositionPhaseOne()
@@ -73,7 +77,8 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
                 self.startingPositionPhaseOne()
             }
         }) { (completed) in
-            self.cardView.addToCartButton.layer.opacity = 1
+            self.cardView.addToCartButton.isHidden = false
+            self.cardView.backgroundView.isHidden = false
             if !self.presenting {
                 transitionContext.completeTransition(completed)
             }
@@ -104,6 +109,8 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
             plantInfoVC.nameLabel,
             plantInfoVC.categoryLabel,
             plantInfoVC.addToCartButton,
+            plantInfoVC.fromLabel,
+            plantInfoVC.priceLabel,
             plantInfoVC.backgroundView,
             plantInfoVC.plantImageView,
             plantInfoVC.descriptionBodyLabel,
@@ -117,6 +124,7 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
             cardView.backgroundView,
             cardView.plantImage,
             cardView.fromLabel,
+            cardView.requirementsBar,
             mainVC.descriptionLabel,
             mainVC.descriptionBodyLabel
         ]
@@ -124,6 +132,8 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         translateAndScale(from: plantInfoVC.nameLabel, to: cardView.nameLabel)
         translateAndScale(from: plantInfoVC.categoryLabel, to: cardView.categoryLabel)
         translateAndScale(from: plantInfoVC.addToCartButton, to: cardView.addToCartButton)
+        translateAndScale(from: plantInfoVC.fromLabel, to: cardView.fromLabel)
+        translateAndScale(from: plantInfoVC.priceLabel, to: cardView.priceLabel)
         
         changeFrameAndCornerRadius(from: plantInfoVC.backgroundView, to: cardView.backgroundView)
         changeFrameAndCornerRadius(from: plantInfoVC.plantImageView, to: cardView.plantImage)
@@ -136,26 +146,18 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         fadeOut(view: plantInfoVC.detailsLabel)
         fadeOut(view: plantInfoVC.detailsBodyLabel)
         fadeOut(view: plantInfoVC.allToKnowLabel)
-        
-        fadeIn(view: cardView.fromLabel)
-        
+                
         initialFrames[plantInfoVC.bottomBackgroundView] = plantInfoVC.bottomBackgroundView.frame
         plantInfoVC.bottomBackgroundView.frame.origin.y = mainVC.plantScrollViewContainer.frame.maxY
-        
-        cardView.addToCartButton.layer.opacity = 0
     }
     
     // Move views to final position for phase two
     func startingPositionPhaseTwo() {
         phaseTwoViews += [
-            plantInfoVC.fromLabel,
-            plantInfoVC.priceLabel,
             plantInfoVC.sizesLabel,
             plantInfoVC.sizesInfoLabel
         ]
         
-        fadeOut(view: plantInfoVC.fromLabel)
-        fadeOut(view: plantInfoVC.priceLabel)
         fadeOut(view: plantInfoVC.sizesLabel)
         fadeOut(view: plantInfoVC.sizesInfoLabel)
     }
