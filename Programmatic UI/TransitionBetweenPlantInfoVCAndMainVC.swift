@@ -16,7 +16,8 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
     private var cardView: PlantCardView!
     private var backgroundViewCopy = UIView()
     private var bottomBackgroundViewCopy = UIView()
-    
+    private var maskingBackgroundView = UIView()
+        
     private var presenting: Bool!
     
     private let duration: TimeInterval = 0.5
@@ -70,6 +71,13 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
             cardView.insertSubview(backgroundViewCopy, at: 0)
             cardView.backgroundView.isHidden = true
             
+            // Masking
+            maskingBackgroundView.frame = cardView.convert(cardView.backgroundView.frame, to: plantInfoVC.view.coordinateSpace)
+            maskingBackgroundView.backgroundColor = .gray
+            maskingBackgroundView.layer.cornerRadius = backgroundViewCopy.layer.cornerRadius
+            containerView.addSubview(maskingBackgroundView)
+            plantInfoVC.view.mask = maskingBackgroundView
+            
             // Create copy of bottomBackgroundView
             bottomBackgroundViewCopy.frame = convertFrameOf(plantInfoVC.bottomBackgroundView)
             bottomBackgroundViewCopy.frame = bottomBackgroundViewCopy.frame.offsetBy(dx: 0, dy: mainVC.descriptionLabel.frame.origin.y - plantInfoVC.bottomBackgroundView.frame.origin.y)
@@ -82,11 +90,20 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         for subview in plantInfoVC.view.subviews {
             subview.layer.opacity = 0
         }
+        // Unhide top buttons to be masked
+        plantInfoVC.shoppingCartButton.layer.opacity = 1
+        plantInfoVC.backButton.layer.opacity = 1
+        
         // Hide original card view
         originalCardView.layer.opacity = 0
         
         // Perform animations
         if presenting {
+            UIView.animate(withDuration: duration * 2 / 3, delay: 0, options: .curveEaseInOut, animations: {
+                self.cardView.fromLabel.layer.opacity = 0
+                self.cardView.priceLabel.layer.opacity = 0
+            })
+            
             UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: {
                 self.presentMainViews()
             })
@@ -98,10 +115,19 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
                 transitionContext.completeTransition(completed)
             }
         } else {
+            // Set fade in labels to start at full opacity
             plantInfoVC.fromLabel.layer.opacity = 1
             plantInfoVC.priceLabel.layer.opacity = 1
             plantInfoVC.sizesLabel.layer.opacity = 1
             plantInfoVC.sizesInfoLabel.layer.opacity = 1
+            
+            // Set masking background view
+            plantInfoVC.view.mask = maskingBackgroundView
+            
+            UIView.animate(withDuration: duration * 2 / 3, delay: duration - duration * 2 / 3, options: .curveEaseInOut, animations: {
+                self.cardView.fromLabel.layer.opacity = 1
+                self.cardView.priceLabel.layer.opacity = 1
+            })
             
             UIView.animate(withDuration: duration / 2, delay: 0, options: .curveEaseInOut, animations: {
                 self.dismissFadeInViews()
@@ -122,8 +148,9 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         backgroundViewCopy.frame = convertFrameOf(plantInfoVC.backgroundView)
         backgroundViewCopy.layer.cornerRadius = plantInfoVC.backgroundView.layer.cornerRadius
         
-        cardView.fromLabel.layer.opacity = 0
-        cardView.priceLabel.layer.opacity = 0
+        maskingBackgroundView.frame = plantInfoVC.backgroundView.frame
+        maskingBackgroundView.layer.cornerRadius = plantInfoVC.backgroundView.layer.cornerRadius
+        
         cardView.requirementsBar.layer.opacity = 0
         translateWithBackground(cardView.fromLabel)
         translateWithBackground(cardView.priceLabel)
@@ -141,6 +168,9 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         }
         originalCardView.layer.opacity = 1
         
+        // Remove mask
+        plantInfoVC.view.mask = nil
+        
         // Possibly temporary
         cardView.isHidden = true
     }
@@ -153,8 +183,8 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         backgroundViewCopy.frame = cardView.backgroundView.frame
         backgroundViewCopy.layer.cornerRadius = cardView.backgroundView.layer.cornerRadius
         
-        cardView.fromLabel.layer.opacity = 1
-        cardView.priceLabel.layer.opacity = 1
+        maskingBackgroundView.frame = cardView.convert(cardView.backgroundView.frame, to: plantInfoVC.view.coordinateSpace)
+        maskingBackgroundView.layer.cornerRadius = cardView.backgroundView.layer.cornerRadius
                 
         cardView.fromLabel.transform = .identity
         cardView.priceLabel.transform = .identity
