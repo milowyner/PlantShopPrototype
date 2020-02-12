@@ -40,6 +40,7 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
         titleLabel.textColor = .label
         titleLabel.font = getScaledFont(for: .regular, size: .title)
         titleLabel.adjustsFontForContentSizeCategory = true
+//        titleLabel.backgroundColor = .gray
         return titleLabel
     }()
     

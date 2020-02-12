@@ -12,18 +12,14 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
     
     private var plantInfoVC: PlantInfoViewController!
     private var mainVC: MainViewController!
+    private var originalCardView: PlantCardView!
     private var cardView: PlantCardView!
+    private var backgroundViewCopy = UIView()
+    private var bottomBackgroundViewCopy = UIView()
     
     private var presenting: Bool!
     
     private let duration: TimeInterval = 0.5
-    
-    private var initialFrames = [UIView: CGRect]()
-    private var initialCornerRadiuses = [UIView: CGFloat]()
-    private var initialOpacities = [UIView: Float]()
-    
-    private var phaseOneViews = [UIView]()
-    private var phaseTwoViews = [UIView]()
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
@@ -31,6 +27,7 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         // Set variables
+        let containerView = transitionContext.containerView
         if let toVC = transitionContext.viewController(forKey: .to) as? PlantInfoViewController {
             presenting = true
             plantInfoVC = toVC
@@ -42,199 +39,187 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         } else {
             fatalError("Can't find PlantInfoViewController")
         }
-        if let selectedCardView = mainVC.selectedPlantCardView { cardView = selectedCardView } else {
+        if let selectedCardView = mainVC.selectedPlantCardView {
+            originalCardView = selectedCardView
+        } else {
             fatalError("Can't find mainVC.selectedCardView")
         }
         if mainVC == nil {
             fatalError("Can't find MainViewController")
         }
         
-        // Add plantInfoVC to container view and update its subviews' frames
-        transitionContext.containerView.addSubview(plantInfoVC.view)
-        plantInfoVC.view.layoutIfNeeded()
-        
-        // Remove any animated views
-        phaseOneViews.removeAll()
-        phaseTwoViews.removeAll()
-        
         // Setup
-        cardView.addToCartButton.isHidden = true
-        cardView.backgroundView.isHidden = true
-        
-        // If presenting, move views to starting position
         if presenting {
-            startingPositionPhaseOne()
-            startingPositionPhaseTwo()
+            // Create copy of plant card view
+            cardView = PlantCardView(from: originalCardView.plant)
+            containerView.addSubview(cardView)
+            
+            // Add plantInfoVC to container view and update its subviews' frames
+            containerView.addSubview(plantInfoVC.view)
+            plantInfoVC.view.layoutIfNeeded()
+            
+            // Set card view's frame
+            cardView.translatesAutoresizingMaskIntoConstraints = true
+            cardView.frame = originalCardView.superview!.convert(originalCardView.frame, to: containerView.coordinateSpace)
+            cardView.layoutIfNeeded()
+            
+            // Create copy of plant card view's background view
+            backgroundViewCopy.frame = cardView.backgroundView.frame
+            backgroundViewCopy.backgroundColor = cardView.backgroundView.backgroundColor
+            backgroundViewCopy.layer.cornerRadius = cardView.backgroundView.layer.cornerRadius
+            cardView.insertSubview(backgroundViewCopy, at: 0)
+            cardView.backgroundView.isHidden = true
+            
+            // Create copy of bottomBackgroundView
+            bottomBackgroundViewCopy.frame = convertFrameOf(plantInfoVC.bottomBackgroundView)
+            bottomBackgroundViewCopy.frame = bottomBackgroundViewCopy.frame.offsetBy(dx: 0, dy: mainVC.descriptionLabel.frame.origin.y - plantInfoVC.bottomBackgroundView.frame.origin.y)
+            bottomBackgroundViewCopy.backgroundColor = plantInfoVC.bottomBackgroundView.backgroundColor
+            bottomBackgroundViewCopy.layer.cornerRadius = plantInfoVC.bottomBackgroundView.layer.cornerRadius
+            cardView.insertSubview(bottomBackgroundViewCopy, belowSubview: cardView.plantImage)
         }
         
-        // Animate phase one
-        UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: {
-            if self.presenting {
-                // Animate views to final position
-                self.finalPositionPhaseOne()
-            } else {
-                // Animate views to starting position
-                self.startingPositionPhaseOne()
-            }
-        }) { (completed) in
-            self.cardView.addToCartButton.isHidden = false
-            self.cardView.backgroundView.isHidden = false
-            if !self.presenting {
+        // Hide all subviews in plant info VC
+        for subview in plantInfoVC.view.subviews {
+            subview.layer.opacity = 0
+        }
+        // Hide original card view
+        originalCardView.layer.opacity = 0
+        
+        // Perform animations
+        if presenting {
+            UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: {
+                self.presentMainViews()
+            })
+            
+            UIView.animate(withDuration: duration, delay: duration / 2, options: .curveEaseInOut, animations: {
+                self.presentFadeInViews()
+            }) { (completed) in
+                self.completePresentation()
                 transitionContext.completeTransition(completed)
             }
-        }
-        
-        let phaseTwoDuration = presenting ? duration : duration / 2
-        let phaseTwoDelay = presenting ? duration / 2 : 0
-        
-        // Animate phase two
-        UIView.animate(withDuration: phaseTwoDuration, delay: phaseTwoDelay, options: .curveEaseOut, animations: {
-            if self.presenting {
-                // Animate views to final position
-                self.finalPositionPhaseTwo()
-            } else {
-                // Animate views to starting position
-                self.startingPositionPhaseTwo()
-            }
-        }) { (completed) in
-            if self.presenting {
-                transitionContext.completeTransition(completed)
-            }
-        }
-    }
-    
-    // Move views to final position for phase one
-    func startingPositionPhaseOne() {
-        phaseOneViews += [
-            plantInfoVC.nameLabel,
-            plantInfoVC.categoryLabel,
-            plantInfoVC.addToCartButton,
-            plantInfoVC.fromLabel,
-            plantInfoVC.priceLabel,
-            plantInfoVC.backgroundView,
-            plantInfoVC.plantImageView,
-            plantInfoVC.descriptionBodyLabel,
-            plantInfoVC.allToKnowLabel,
-            plantInfoVC.detailsLabel,
-            plantInfoVC.detailsBodyLabel,
-            plantInfoVC.bottomBackgroundView,
-            cardView.nameLabel,
-            cardView.categoryLabel,
-            cardView.addToCartButton,
-            cardView.backgroundView,
-            cardView.plantImage,
-            cardView.fromLabel,
-            cardView.requirementsBar,
-            mainVC.descriptionLabel,
-            mainVC.descriptionBodyLabel
-        ]
-        
-        translateAndScale(from: plantInfoVC.nameLabel, to: cardView.nameLabel)
-        translateAndScale(from: plantInfoVC.categoryLabel, to: cardView.categoryLabel)
-        translateAndScale(from: plantInfoVC.addToCartButton, to: cardView.addToCartButton)
-        translateAndScale(from: plantInfoVC.fromLabel, to: cardView.fromLabel)
-        translateAndScale(from: plantInfoVC.priceLabel, to: cardView.priceLabel)
-        
-        changeFrameAndCornerRadius(from: plantInfoVC.backgroundView, to: cardView.backgroundView)
-        changeFrameAndCornerRadius(from: plantInfoVC.plantImageView, to: cardView.plantImage)
-        
-        let descriptionTranslate = translateAndScale(from: plantInfoVC.descriptionBodyLabel, to: mainVC.descriptionBodyLabel)
-        translate(plantInfoVC.allToKnowLabel, by: descriptionTranslate.y)
-        translate(plantInfoVC.detailsLabel, by: descriptionTranslate.y)
-        translate(plantInfoVC.detailsBodyLabel, by: descriptionTranslate.y)
-        
-        fadeOut(view: plantInfoVC.detailsLabel)
-        fadeOut(view: plantInfoVC.detailsBodyLabel)
-        fadeOut(view: plantInfoVC.allToKnowLabel)
-                
-        initialFrames[plantInfoVC.bottomBackgroundView] = plantInfoVC.bottomBackgroundView.frame
-        plantInfoVC.bottomBackgroundView.frame.origin.y = mainVC.plantScrollViewContainer.frame.maxY
-    }
-    
-    // Move views to final position for phase two
-    func startingPositionPhaseTwo() {
-        phaseTwoViews += [
-            plantInfoVC.sizesLabel,
-            plantInfoVC.sizesInfoLabel
-        ]
-        
-        fadeOut(view: plantInfoVC.sizesLabel)
-        fadeOut(view: plantInfoVC.sizesInfoLabel)
-    }
-    
-    private func finalPositionPhaseOne() {
-        for view in phaseOneViews {
-            resetView(view)
-        }
-    }
-    
-    private func finalPositionPhaseTwo() {
-        for view in phaseTwoViews {
-            resetView(view)
-        }
-    }
-    
-    private enum Axis { case x; case y }
-
-    private func translate(from initialView: UIView, to newView: UIView, axis: Axis? = nil) {
-        let newViewCenter = newView.superview!.convert(newView.center, to: initialView.superview!.coordinateSpace)
-        let translateX = axis != .some(.y) ? newViewCenter.x - initialView.center.x : 0
-        let translateY = axis != .some(.x) ? newViewCenter.y - initialView.center.y : 0
-        
-        initialView.transform = .init(translationX: translateX, y: translateY)
-    }
-    
-    private func translate(_ view: UIView, by translation: CGFloat, axis: Axis? = nil) {
-        view.transform = .init(translationX: 0, y: translation)
-    }
-    
-    @discardableResult private func translateAndScale(from initialView: UIView, to newView: UIView, axis: Axis? = nil) -> (x: CGFloat, y: CGFloat) {
-        let newViewCenter = newView.superview!.convert(newView.center, to: initialView.superview!.coordinateSpace)
-        let translateX = axis != .some(.y) ? newViewCenter.x - initialView.center.x : 0
-        let translateY = axis != .some(.x) ? newViewCenter.y - initialView.center.y : 0
-        
-        let scaleX = newView.bounds.width / initialView.bounds.width
-        let scaleY = newView.bounds.height / initialView.bounds.height
-        
-        initialView.transform = CGAffineTransform(translationX: translateX, y: translateY).scaledBy(x: scaleX, y: scaleY)
-        
-        return (translateX, translateY)
-    }
-    
-    private func changeFrameAndCornerRadius(from initialView: UIView, to newView: UIView) {
-        initialFrames[initialView] = initialView.frame
-        initialCornerRadiuses[initialView] = initialView.layer.cornerRadius
-        let newViewFrame = newView.superview!.convert(newView.frame, to: initialView.superview!.coordinateSpace)
-        initialView.layer.cornerRadius = newView.layer.cornerRadius
-        initialView.frame = newViewFrame
-    }
-    
-    private func fadeOut(view: UIView) {
-        initialOpacities[view] = view.layer.opacity
-        view.layer.opacity = 0
-    }
-    
-    private func fadeIn(view: UIView) {
-        initialOpacities[view] = 0
-        view.layer.opacity = 1
-    }
-    
-    private func crossDissolve(from initialView: UIView, to newView: UIView) {
-        initialOpacities[initialView] = 1
-        initialOpacities[newView] = 0
-        initialView.layer.opacity = 0
-        newView.layer.opacity = 1
-    }
-    
-    private func resetView(_ view: UIView) {
-        view.layer.cornerRadius = initialCornerRadiuses[view] ?? view.layer.cornerRadius
-        view.layer.opacity = initialOpacities[view] ?? view.layer.opacity
-        
-        if !view.transform.isIdentity {
-            view.transform = .identity
         } else {
-            view.frame = initialFrames[view] ?? view.frame
+            plantInfoVC.fromLabel.layer.opacity = 1
+            plantInfoVC.priceLabel.layer.opacity = 1
+            plantInfoVC.sizesLabel.layer.opacity = 1
+            plantInfoVC.sizesInfoLabel.layer.opacity = 1
+            
+            UIView.animate(withDuration: duration / 2, delay: 0, options: .curveEaseInOut, animations: {
+                self.dismissFadeInViews()
+            })
+            
+            UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: {
+                self.dismissMainViews()
+            }) { (completed) in
+                self.completeDismissal()
+                transitionContext.completeTransition(completed)
+            }
         }
+    }
+    
+    private func presentMainViews() {
+        bottomBackgroundViewCopy.transform = .init(translationX: 0, y: plantInfoVC.bottomBackgroundView.frame.origin.y - mainVC.descriptionLabel.frame.origin.y)
+        
+        backgroundViewCopy.frame = convertFrameOf(plantInfoVC.backgroundView)
+        backgroundViewCopy.layer.cornerRadius = plantInfoVC.backgroundView.layer.cornerRadius
+        
+        cardView.fromLabel.layer.opacity = 0
+        cardView.priceLabel.layer.opacity = 0
+        cardView.requirementsBar.layer.opacity = 0
+        translateWithBackground(cardView.fromLabel)
+        translateWithBackground(cardView.priceLabel)
+        translateWithBackground(cardView.requirementsBar)
+                
+        translateAndScale(from: cardView.nameLabel, to: plantInfoVC.nameLabel)
+        translateAndScale(from: cardView.categoryLabel, to: plantInfoVC.categoryLabel)
+        translateAndScale(from: cardView.plantImage, to: plantInfoVC.plantImageView)
+        translateAndScale(from: cardView.addToCartButton, to: plantInfoVC.addToCartButton)
+    }
+    
+    private func completePresentation() {
+        for subview in plantInfoVC.view.subviews {
+            subview.layer.opacity = 1
+        }
+        originalCardView.layer.opacity = 1
+        
+        // Possibly temporary
+        cardView.isHidden = true
+    }
+    
+    private func dismissMainViews() {
+        cardView.isHidden = false
+        
+        bottomBackgroundViewCopy.transform = .identity
+        
+        backgroundViewCopy.frame = cardView.backgroundView.frame
+        backgroundViewCopy.layer.cornerRadius = cardView.backgroundView.layer.cornerRadius
+        
+        cardView.fromLabel.layer.opacity = 1
+        cardView.priceLabel.layer.opacity = 1
+                
+        cardView.fromLabel.transform = .identity
+        cardView.priceLabel.transform = .identity
+        cardView.requirementsBar.transform = .identity
+        
+        cardView.requirementsBar.layer.opacity = 1
+        
+        cardView.nameLabel.transform = .identity
+        cardView.categoryLabel.transform = .identity
+        cardView.plantImage.transform = .identity
+        cardView.addToCartButton.transform = .identity
+    }
+    
+    private func completeDismissal() {
+        originalCardView.layer.opacity = 1
+    }
+    
+    private func presentFadeInViews() {
+        plantInfoVC.fromLabel.layer.opacity = 1
+        plantInfoVC.priceLabel.layer.opacity = 1
+        plantInfoVC.sizesLabel.layer.opacity = 1
+        plantInfoVC.sizesInfoLabel.layer.opacity = 1
+    }
+    
+    private func dismissFadeInViews() {
+        plantInfoVC.fromLabel.layer.opacity = 0
+        plantInfoVC.priceLabel.layer.opacity = 0
+        plantInfoVC.sizesLabel.layer.opacity = 0
+        plantInfoVC.sizesInfoLabel.layer.opacity = 0
+    }
+    
+    private func convertFrameOf(_ view: UIView) -> CGRect {
+        return plantInfoVC.view.convert(view.frame, to: cardView)
+    }
+    
+    private func convertCenterOf(_ view: UIView) -> CGPoint {
+        return plantInfoVC.view.convert(view.center, to: cardView)
+    }
+    
+    private func translateAndScale(from fromView: UIView, to toView: UIView) {
+        let translate = (x: convertCenterOf(toView).x - fromView.center.x, y: convertCenterOf(toView).y - fromView.center.y)
+        let scale = toView.bounds.width / fromView.bounds.width
+        fromView.transform = CGAffineTransform(translationX: translate.x, y: translate.y).scaledBy(x: scale, y: scale)
+    }
+    
+    private func translateWithBackground(_ view: UIView) {
+        let oldViewCenter = view.center
+        let oldBackgroundViewCenter = CGPoint(x: originalCardView.backgroundView.bounds.midX, y: originalCardView.backgroundView.bounds.midY)
+        
+        let oldCenterDistanceX = oldViewCenter.x - oldBackgroundViewCenter.x
+        let oldCenterDistanceY = oldViewCenter.y - oldBackgroundViewCenter.y
+        
+        let scaleX = plantInfoVC.backgroundView.bounds.width / originalCardView.backgroundView.bounds.width
+        let scaleY = plantInfoVC.backgroundView.bounds.height / originalCardView.backgroundView.bounds.height
+        
+        let newCenterDistanceX = oldCenterDistanceX * scaleX
+        let newCenterDistanceY = oldCenterDistanceY * scaleY
+        let newBackgroundViewCenter = convertCenterOf(plantInfoVC.backgroundView)
+        
+        let newViewCenter = CGPoint(x: newBackgroundViewCenter.x + newCenterDistanceX, y: newBackgroundViewCenter.y + newCenterDistanceY)
+        
+        let translateX = newViewCenter.x - oldViewCenter.x
+        let translateY = newViewCenter.y - oldViewCenter.y
+        
+        view.transform = CGAffineTransform(translationX: translateX, y: translateY)
     }
     
 }

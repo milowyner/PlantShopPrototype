@@ -33,12 +33,12 @@ class PlantCardView: UIButton {
         self.plant = plant
                 
         setupBackgroundView()
+        setupRequirementsBar()
         setupPlantImage(with: plant.image)
         setupFromLabel()
         setupPriceLabel(with: plant.price)
         setupCategoryLabel(with: plant.category.rawValue)
         setupNameLabel(with: plant.name)
-        setupRequirementsBar()
         setupAddToCartButton()
         
         translatesAutoresizingMaskIntoConstraints = false
@@ -133,6 +133,7 @@ class PlantCardView: UIButton {
         nameLabel.topAnchor.constraint(equalToSystemSpacingBelow: categoryLabel.bottomAnchor, multiplier: 0.5).isActive = true
         nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: smallerSpacingConstant).isActive = true
         nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -smallerSpacingConstant * 0.75).isActive = true
+        requirementsBar.topAnchor.constraint(equalToSystemSpacingBelow: nameLabel.bottomAnchor, multiplier: 1).isActive = true
         nameLabel.adjustsFontSizeToFitWidth = true
     }
     
@@ -146,7 +147,6 @@ class PlantCardView: UIButton {
         requirementsBar.translatesAutoresizingMaskIntoConstraints = false
         requirementsBar.heightAnchor.constraint(equalToConstant: 35).isActive = true
         requirementsBar.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        requirementsBar.topAnchor.constraint(equalToSystemSpacingBelow: nameLabel.bottomAnchor, multiplier: 1).isActive = true
         requirementsBar.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -smallerSpacingConstant).isActive = true
         requirementsBar.leadingAnchor.constraint(equalTo: leadingAnchor, constant: smallerSpacingConstant).isActive = true
     }
