@@ -10,17 +10,25 @@ import UIKit
 
 class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedTransitioning {
     
+    private var containerView: UIView!
     private var plantInfoVC: PlantInfoViewController!
     private var mainVC: MainViewController!
     private var originalCardView: PlantCardView!
     private var cardView: PlantCardView!
+    
     private var backgroundViewCopy = UIView()
     private var bottomBackgroundViewCopy = UIView()
-    private var maskingBackgroundView = UIView()
-        
-    private var presenting: Bool!
     
+    private var descriptionLabelCopy = UILabel()
+    private var descriptionBodyLabelCopy = UILabel()
+    
+    private var slidingLabels = [UILabel]()
+    
+    private var maskingBackgroundView = UIView()
+    
+    private var presenting: Bool!
     private let duration: TimeInterval = 0.5
+    private var slidingDistance: CGFloat!
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
@@ -28,7 +36,7 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         // Set variables
-        let containerView = transitionContext.containerView
+        containerView = transitionContext.containerView
         if let toVC = transitionContext.viewController(forKey: .to) as? PlantInfoViewController {
             presenting = true
             plantInfoVC = toVC
@@ -80,10 +88,36 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
             
             // Create copy of bottomBackgroundView
             bottomBackgroundViewCopy.frame = convertFrameOf(plantInfoVC.bottomBackgroundView)
-            bottomBackgroundViewCopy.frame = bottomBackgroundViewCopy.frame.offsetBy(dx: 0, dy: mainVC.descriptionLabel.frame.origin.y - plantInfoVC.bottomBackgroundView.frame.origin.y)
+            slidingDistance = mainVC.descriptionLabel.frame.origin.y - plantInfoVC.bottomBackgroundView.frame.origin.y
+            bottomBackgroundViewCopy.frame = bottomBackgroundViewCopy.frame.offsetBy(dx: 0, dy: slidingDistance)
             bottomBackgroundViewCopy.backgroundColor = plantInfoVC.bottomBackgroundView.backgroundColor
             bottomBackgroundViewCopy.layer.cornerRadius = plantInfoVC.bottomBackgroundView.layer.cornerRadius
             cardView.insertSubview(bottomBackgroundViewCopy, belowSubview: cardView.plantImage)
+            
+            // Create copy of mainVC description labels
+            copyLabel(to: descriptionLabelCopy, from: mainVC.descriptionLabel)
+            containerView.addSubview(descriptionLabelCopy)
+            copyLabel(to: descriptionBodyLabelCopy, from: mainVC.descriptionBodyLabel)
+            containerView.addSubview(descriptionBodyLabelCopy)
+            
+            // Create copy of plantInfoVC bottom labels
+            slidingLabels = [
+                plantInfoVC.allToKnowLabel,
+                plantInfoVC.descriptionBodyLabel,
+                plantInfoVC.detailsLabel,
+                plantInfoVC.detailsBodyLabel
+            ].map { (labelCounterpart) -> UILabel in
+                let newLabel = UILabel()
+                copyLabel(to: newLabel, from: labelCounterpart)
+                containerView.addSubview(newLabel)
+                return newLabel
+            }
+            
+            // Set up sliding labels
+            for label in slidingLabels {
+                label.transform = .init(translationX: 0, y: slidingDistance)
+                label.layer.opacity = 0
+            }
         }
         
         // Hide all subviews in plant info VC
@@ -102,6 +136,8 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
             UIView.animate(withDuration: duration * 2 / 3, delay: 0, options: .curveEaseInOut, animations: {
                 self.cardView.fromLabel.layer.opacity = 0
                 self.cardView.priceLabel.layer.opacity = 0
+                self.descriptionLabelCopy.layer.opacity = 0
+                self.descriptionBodyLabelCopy.layer.opacity = 0
             })
             
             UIView.animate(withDuration: duration, delay: 0, options: .curveEaseInOut, animations: {
@@ -120,6 +156,9 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
             plantInfoVC.priceLabel.layer.opacity = 1
             plantInfoVC.sizesLabel.layer.opacity = 1
             plantInfoVC.sizesInfoLabel.layer.opacity = 1
+            for label in slidingLabels {
+                label.layer.opacity = 1
+            }
             
             // Set masking background view
             plantInfoVC.view.mask = maskingBackgroundView
@@ -127,6 +166,13 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
             UIView.animate(withDuration: duration * 2 / 3, delay: duration - duration * 2 / 3, options: .curveEaseInOut, animations: {
                 self.cardView.fromLabel.layer.opacity = 1
                 self.cardView.priceLabel.layer.opacity = 1
+                self.descriptionLabelCopy.layer.opacity = 1
+                self.descriptionBodyLabelCopy.layer.opacity = 1
+            })
+            
+            UIView.animate(withDuration: duration, delay: duration - duration * 2 / 3, options: .curveEaseInOut, animations: {
+                self.descriptionLabelCopy.layer.opacity = 1
+                self.descriptionBodyLabelCopy.layer.opacity = 1
             })
             
             UIView.animate(withDuration: duration / 2, delay: 0, options: .curveEaseInOut, animations: {
@@ -160,6 +206,10 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         translateAndScale(from: cardView.categoryLabel, to: plantInfoVC.categoryLabel)
         translateAndScale(from: cardView.plantImage, to: plantInfoVC.plantImageView)
         translateAndScale(from: cardView.addToCartButton, to: plantInfoVC.addToCartButton)
+        
+        for label in slidingLabels {
+            label.transform = .identity
+        }
     }
     
     private func completePresentation() {
@@ -167,6 +217,10 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
             subview.layer.opacity = 1
         }
         originalCardView.layer.opacity = 1
+        
+        for label in slidingLabels {
+            label.layer.opacity = 0
+        }
         
         // Remove mask
         plantInfoVC.view.mask = nil
@@ -196,6 +250,11 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         cardView.categoryLabel.transform = .identity
         cardView.plantImage.transform = .identity
         cardView.addToCartButton.transform = .identity
+                
+        for label in slidingLabels {
+            label.transform = CGAffineTransform.identity.translatedBy(x: 0, y: slidingDistance)
+//            label.transform = .init(translationX: 0, y: slidingDistance)
+        }
     }
     
     private func completeDismissal() {
@@ -207,6 +266,10 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         plantInfoVC.priceLabel.layer.opacity = 1
         plantInfoVC.sizesLabel.layer.opacity = 1
         plantInfoVC.sizesInfoLabel.layer.opacity = 1
+        
+        for label in slidingLabels {
+            label.layer.opacity = 1
+        }
     }
     
     private func dismissFadeInViews() {
@@ -214,6 +277,10 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         plantInfoVC.priceLabel.layer.opacity = 0
         plantInfoVC.sizesLabel.layer.opacity = 0
         plantInfoVC.sizesInfoLabel.layer.opacity = 0
+        
+        for label in slidingLabels {
+            label.layer.opacity = 0
+        }
     }
     
     private func convertFrameOf(_ view: UIView) -> CGRect {
@@ -250,6 +317,18 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         let translateY = newViewCenter.y - oldViewCenter.y
         
         view.transform = CGAffineTransform(translationX: translateX, y: translateY)
+    }
+    
+    private func copyLabel(to: UILabel, from: UILabel) {
+        to.textColor = from.textColor
+        to.font = from.font
+        to.numberOfLines = from.numberOfLines
+        if to.attributedText != nil {
+            to.text = from.text
+        } else {
+            to.attributedText = from.attributedText
+        }
+        to.frame = from.frame
     }
     
 }
