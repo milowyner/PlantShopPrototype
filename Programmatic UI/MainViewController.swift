@@ -234,11 +234,11 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
             // Menu button
             menuButton.widthAnchor.constraint(equalToConstant: 50),
             menuButton.heightAnchor.constraint(equalToConstant: 50),
-            menuButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: spacingConstant / 2),
+            menuButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             menuButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor, constant: -10),
             
             // Shopping cart button
-            shoppingCartButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: spacingConstant / 2),
+            shoppingCartButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             shoppingCartButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             
             // Title label
