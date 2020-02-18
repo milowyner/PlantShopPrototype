@@ -119,11 +119,19 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
         
         // Category scroll view setup
         categoryScrollView.categoryDelegate = self
+        categoryScrollView.stackView.spacing = horizontalSpacingConstant
+        categoryScrollView.stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: NSDirectionalEdgeInsets.customMargins.leading,
+            bottom: 0,
+            trailing: NSDirectionalEdgeInsets.customMargins.trailing
+        )
         
         // Plant scroll view setup
         visiblePlants = filteredPlants(fromCategory: .top)
         plantScrollView.setPlants(visiblePlants)
         plantScrollView.delegate = self
+        plantScrollView.stackView.spacing = horizontalSpacingConstant * 0.75
         
         // Plant scroll view container setup
         plantScrollViewContainer.addSubview(plantScrollView)
@@ -242,28 +250,28 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
             shoppingCartButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             
             // Title label
-            titleLabel.topAnchor.constraint(equalTo: shoppingCartButton.bottomAnchor, constant: spacingConstant / 2),
+            titleLabel.topAnchor.constraint(equalTo: shoppingCartButton.bottomAnchor, constant: -15 + verticalSpacingConstant * 0.75),
             titleLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor),
             
             // Category scroll view
-            categoryScrollView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacingConstant),
+            categoryScrollView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: verticalSpacingConstant),
             categoryScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             categoryScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             // Plant scroll view container
-            plantScrollViewContainer.topAnchor.constraint(equalTo: categoryScrollView.bottomAnchor, constant: spacingConstant / 2),
+            plantScrollViewContainer.topAnchor.constraint(equalTo: categoryScrollView.bottomAnchor, constant: verticalSpacingConstant / 2),
             plantScrollViewContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             plantScrollViewContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             // Plant scroll view
             plantScrollView.topAnchor.constraint(equalTo: plantScrollViewContainer.topAnchor),
             plantScrollView.bottomAnchor.constraint(equalTo: plantScrollViewContainer.bottomAnchor),
-            plantScrollView.leadingAnchor.constraint(equalTo: plantScrollViewContainer.leadingAnchor, constant: spacingConstant),
-            plantScrollView.widthAnchor.constraint(equalToConstant: PlantCardView.cardWidth + smallerSpacingConstant),
+            plantScrollView.leadingAnchor.constraint(equalTo: plantScrollViewContainer.leadingAnchor, constant: horizontalSpacingConstant),
+            plantScrollView.widthAnchor.constraint(equalToConstant: PlantCardView.cardWidth + horizontalSpacingConstant),
             
             // Description label
-            descriptionLabel.topAnchor.constraint(equalToSystemSpacingBelow: plantScrollView.bottomAnchor, multiplier: 1),
+            descriptionLabel.topAnchor.constraint(equalTo: plantScrollView.bottomAnchor, constant: verticalSpacingConstant / 2),
             descriptionLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             descriptionLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor),
             

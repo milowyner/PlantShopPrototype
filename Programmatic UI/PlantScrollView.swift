@@ -19,7 +19,6 @@ class PlantScrollView: UIScrollView, PlantCardViewDelegate {
         
         stackView.axis = .horizontal
         stackView.distribution = .equalSpacing
-        stackView.spacing = smallerSpacingConstant
         
         self.addSubview(stackView)
         

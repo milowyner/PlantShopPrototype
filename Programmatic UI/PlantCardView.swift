@@ -21,7 +21,6 @@ class PlantCardView: UIButton {
     
     static let cardWidth: CGFloat = 220
     static let cardHeight: CGFloat = 355
-    static let bottomOffset: CGFloat = 40
     
     var plant: Plant!
     
@@ -43,7 +42,7 @@ class PlantCardView: UIButton {
         
         translatesAutoresizingMaskIntoConstraints = false
         widthAnchor.constraint(equalToConstant: PlantCardView.cardWidth).isActive = true
-        heightAnchor.constraint(equalToConstant: PlantCardView.cardHeight + PlantCardView.bottomOffset).isActive = true
+        heightAnchor.constraint(equalToConstant: PlantCardView.cardHeight + addToCartButton.diameter / 2).isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -62,7 +61,7 @@ class PlantCardView: UIButton {
         // Set constraints
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         backgroundView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -PlantCardView.bottomOffset).isActive = true
+        backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -addToCartButton.diameter / 2).isActive = true
         backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
     }

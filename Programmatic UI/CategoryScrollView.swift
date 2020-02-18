@@ -23,10 +23,8 @@ class CategoryScrollView: UIScrollView {
         
         stackView.axis = .horizontal
         stackView.distribution = .equalSpacing
-        stackView.spacing = spacingConstant
         
         // Set up buttons
-                
         for (index, button) in buttonArray.enumerated() {
             button.setTitle(PlantCategory.allCases[index].rawValue, for: .normal)
             button.titleLabel?.adjustsFontForContentSizeCategory = true
@@ -49,7 +47,6 @@ class CategoryScrollView: UIScrollView {
         
         // Add padding to left and right side
         stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = UIEdgeInsets(top: 0, left: spacingConstant, bottom: 0, right: spacingConstant)
     }
     
     required init?(coder: NSCoder) {

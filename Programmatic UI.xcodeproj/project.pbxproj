@@ -33,6 +33,7 @@
 		058F899223C6DBB000DE8D77 /* Raleway-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 058F899123C6DBB000DE8D77 /* Raleway-Medium.ttf */; };
 		058F899423C6DDFC00DE8D77 /* Campton-BoldDEMO.otf in Resources */ = {isa = PBXBuildFile; fileRef = 058F899323C6DDFC00DE8D77 /* Campton-BoldDEMO.otf */; };
 		058F899623C7B37200DE8D77 /* Plant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058F899523C7B37200DE8D77 /* Plant.swift */; };
+		05966BB623F9BFAC001B7FEC /* CustomSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05966BB523F9BFAC001B7FEC /* CustomSpacing.swift */; };
 		05A6B40923E102C300B4F755 /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A6B40823E102C300B4F755 /* Extentions.swift */; };
 		05EB595523E626EB00F326FF /* TransitionBetweenPlantInfoVCAndMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05EB595423E626EB00F326FF /* TransitionBetweenPlantInfoVCAndMainVC.swift */; };
 /* End PBXBuildFile section */
@@ -66,6 +67,7 @@
 		058F899123C6DBB000DE8D77 /* Raleway-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Medium.ttf"; sourceTree = "<group>"; };
 		058F899323C6DDFC00DE8D77 /* Campton-BoldDEMO.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Campton-BoldDEMO.otf"; sourceTree = "<group>"; };
 		058F899523C7B37200DE8D77 /* Plant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plant.swift; sourceTree = "<group>"; };
+		05966BB523F9BFAC001B7FEC /* CustomSpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSpacing.swift; sourceTree = "<group>"; };
 		05A6B40823E102C300B4F755 /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 		05EB595423E626EB00F326FF /* TransitionBetweenPlantInfoVCAndMainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionBetweenPlantInfoVCAndMainVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,6 +115,7 @@
 				054A712323DBB57F007EBADE /* ShoppingCartButton.swift */,
 				0522A01F23C3F3E200F04D5E /* Constants.swift */,
 				05A6B40823E102C300B4F755 /* Extentions.swift */,
+				05966BB523F9BFAC001B7FEC /* CustomSpacing.swift */,
 				05229FE923BEFB2500F04D5E /* Assets.xcassets */,
 				05229FEB23BEFB2500F04D5E /* LaunchScreen.storyboard */,
 				05229FEE23BEFB2500F04D5E /* Info.plist */,
@@ -224,6 +227,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				05966BB623F9BFAC001B7FEC /* CustomSpacing.swift in Sources */,
 				053B12AA23C544950059F648 /* PlantCardView.swift in Sources */,
 				054A712423DBB57F007EBADE /* ShoppingCartButton.swift in Sources */,
 				05229FE523BEFB2200F04D5E /* MainViewController.swift in Sources */,

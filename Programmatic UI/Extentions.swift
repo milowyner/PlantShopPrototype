@@ -19,10 +19,6 @@ extension NSLayoutConstraint {
     }
 }
 
-extension NSDirectionalEdgeInsets {
-    static let customMargins = NSDirectionalEdgeInsets(top: 20, leading: 40, bottom: 0, trailing: 30)
-}
-
 extension NSAttributedString {
     static func increasedLineHeight(string: String) -> NSAttributedString {
         let paragraphStyle = NSMutableParagraphStyle()
