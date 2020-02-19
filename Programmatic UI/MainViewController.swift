@@ -28,6 +28,9 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
     
     let menuButton = UIButton()
     let shoppingCartButton = ShoppingCartButton(type: .normal, tint: .label, background: .secondarySystemFill)
+    
+    let verticalScrollView = UIScrollView()
+    
     let titleLabel = UILabel()
     let categoryScrollView = CategoryScrollView()
     let plantScrollViewContainer = UIView()
@@ -55,6 +58,13 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
         for topLevelView in [
             menuButton,
             shoppingCartButton,
+            verticalScrollView
+            ] {
+                view.addSubview(topLevelView)
+        }
+        
+        // Add scrolling views to the vertical scroll view
+        for scrollingView in [
             titleLabel,
             categoryScrollView,
             plantScrollViewContainer,
@@ -62,7 +72,7 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
             descriptionBodyLabel,
             nothingFoundLabel
             ] {
-                view.addSubview(topLevelView)
+                verticalScrollView.addSubview(scrollingView)
         }
         
         // Menu button
@@ -113,6 +123,9 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
     private func setConstraints() {
         // Set custom margins
         view.directionalLayoutMargins = .customMargins
+        verticalScrollView.contentInset = UIEdgeInsets(
+            top: 0, left: 0, bottom: NSDirectionalEdgeInsets.customMargins.bottom, right: 0
+        )
         
         let constraints = [
             // Menu button
@@ -125,8 +138,14 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
             shoppingCartButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             shoppingCartButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             
+            // Vertical scroll view
+            verticalScrollView.topAnchor.constraint(equalTo: menuButton.bottomAnchor),
+            verticalScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            verticalScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            verticalScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
             // Title label
-            titleLabel.topAnchor.constraint(equalTo: shoppingCartButton.bottomAnchor, constant: -15 + verticalSpacingConstant * 0.75),
+            titleLabel.topAnchor.constraint(equalTo: verticalScrollView.topAnchor, constant: -15 + verticalSpacingConstant * 0.75),
             titleLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor),
             
@@ -144,7 +163,7 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
             plantScrollView.topAnchor.constraint(equalTo: plantScrollViewContainer.topAnchor),
             plantScrollView.bottomAnchor.constraint(equalTo: plantScrollViewContainer.bottomAnchor),
             plantScrollView.leadingAnchor.constraint(equalTo: plantScrollViewContainer.leadingAnchor, constant: horizontalSpacingConstant),
-            plantScrollView.widthAnchor.constraint(equalToConstant: PlantCardView.cardWidth + horizontalSpacingConstant),
+            plantScrollView.widthAnchor.constraint(equalToConstant: PlantCardView.cardWidth + plantScrollView.stackView.spacing),
             
             // Description label
             descriptionLabel.topAnchor.constraint(equalTo: plantScrollView.bottomAnchor, constant: verticalSpacingConstant / 2),
@@ -154,7 +173,8 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
             // Description body label
             descriptionBodyLabel.topAnchor.constraint(equalToSystemSpacingBelow: descriptionLabel.bottomAnchor, multiplier: 1),
             descriptionBodyLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            descriptionBodyLabel.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
+            descriptionBodyLabel.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            descriptionBodyLabel.bottomAnchor.constraint(equalTo: verticalScrollView.bottomAnchor)
         ]
         
         // Enable autolayout

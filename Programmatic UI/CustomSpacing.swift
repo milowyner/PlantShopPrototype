@@ -33,7 +33,7 @@ extension NSDirectionalEdgeInsets {
         let insets = NSDirectionalEdgeInsets(
             top: 20 * verticalSpacingMultiplier,
             leading: 40 * horizontalSpacingMultiplier,
-            bottom: 0 * verticalSpacingMultiplier,
+            bottom: 40 * verticalSpacingMultiplier,
             trailing: 30 * horizontalSpacingMultiplier
         )
         return insets
