@@ -20,71 +20,21 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
     
     var selectedCategory: PlantCategory = .top
     var selectedPlantCardView: PlantCardView?
-
+    
     // Used to animate the description change of the current plant card being displayed
     var pageIndexOfPlantScrollView = 0
     
     // MARK: Views
     
-    let menuButton: UIButton = {
-        let menuButton = UIButton()
-        menuButton.setImage(UIImage(named: "Menu"), for: .normal)
-        return menuButton
-    }()
-    
+    let menuButton = UIButton()
     let shoppingCartButton = ShoppingCartButton(type: .normal, tint: .label, background: .secondarySystemFill)
-    
-    let titleLabel: UILabel = {
-        let titleLabel = UILabel()
-        titleLabel.text = "Top Picks"
-        titleLabel.textColor = .label
-        titleLabel.font = getScaledFont(for: .regular, size: .title)
-        titleLabel.adjustsFontForContentSizeCategory = true
-        return titleLabel
-    }()
-    
+    let titleLabel = UILabel()
     let categoryScrollView = CategoryScrollView()
-    
     let plantScrollViewContainer = UIView()
-    
-    let plantScrollView: PlantScrollView = {
-        let plantScrollView = PlantScrollView()
-        // Enable paging
-        plantScrollView.isPagingEnabled = true
-        plantScrollView.clipsToBounds = false
-        return plantScrollView
-    }()
-    
-    let descriptionLabel: UILabel = {
-        let descriptionLabel = UILabel()
-        descriptionLabel.text = "Description"
-        descriptionLabel.textColor = .label
-        descriptionLabel.font = getScaledFont(for: .regular, size: .headline)
-        return descriptionLabel
-    }()
-    
-    let descriptionBodyLabel: UILabel = {
-        let descriptionBodyLabel = UILabel()
-        descriptionBodyLabel.textColor = .secondaryLabel
-        descriptionBodyLabel.font = getScaledFont(for: .regular, size: .body)
-        descriptionBodyLabel.numberOfLines = 0
-        return descriptionBodyLabel
-    }()
-    
+    let plantScrollView = PlantScrollView()
+    let descriptionLabel = UILabel()
+    let descriptionBodyLabel = UILabel()
     let nothingFoundLabel = UILabel()
-    
-    // A list of every view that will use autolayout
-    lazy var autoLayoutViews = [
-        menuButton,
-        shoppingCartButton,
-        titleLabel,
-        categoryScrollView,
-        plantScrollViewContainer,
-        plantScrollView,
-        descriptionLabel,
-        descriptionBodyLabel,
-        nothingFoundLabel
-    ]
     
     // MARK: - View Did Load
     
@@ -102,7 +52,7 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
     
     private func setupViews() {
         // Add top level views to the main view
-        let topLevelViews = [
+        for topLevelView in [
             menuButton,
             shoppingCartButton,
             titleLabel,
@@ -111,12 +61,20 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
             descriptionLabel,
             descriptionBodyLabel,
             nothingFoundLabel
-        ]
-        for view in topLevelViews {
-            self.view.addSubview(view)
+            ] {
+                view.addSubview(topLevelView)
         }
         
-        // Category scroll view setup
+        // Menu button
+        menuButton.setImage(UIImage(named: "Menu"), for: .normal)
+        
+        // Title label
+        titleLabel.text = "Top Picks"
+        titleLabel.textColor = .label
+        titleLabel.font = getScaledFont(for: .regular, size: .title)
+        titleLabel.adjustsFontForContentSizeCategory = true
+        
+        // Category scroll view
         categoryScrollView.categoryDelegate = self
         categoryScrollView.stackView.spacing = horizontalSpacingConstant
         categoryScrollView.stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(
@@ -126,32 +84,37 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
             trailing: NSDirectionalEdgeInsets.customMargins.trailing
         )
         
-        // Plant scroll view setup
+        // Plant scroll view
         visiblePlants = filteredPlants(fromCategory: .top)
         plantScrollView.setPlants(visiblePlants)
         plantScrollView.delegate = self
         plantScrollView.stackView.spacing = horizontalSpacingConstant * 0.75
+        plantScrollView.isPagingEnabled = true
+        plantScrollView.clipsToBounds = false
         
-        // Plant scroll view container setup
+        // Plant scroll view container
         plantScrollViewContainer.addSubview(plantScrollView)
         plantScrollViewContainer.addGestureRecognizer(plantScrollView.panGestureRecognizer)
         
-        // Description body label setup
+        // Description label
+        descriptionLabel.text = "Description"
+        descriptionLabel.textColor = .label
+        descriptionLabel.font = getScaledFont(for: .regular, size: .headline)
+        
+        // Description body label
+        descriptionBodyLabel.textColor = .secondaryLabel
+        descriptionBodyLabel.font = getScaledFont(for: .regular, size: .body)
+        descriptionBodyLabel.numberOfLines = 0
         descriptionBodyLabel.attributedText = .increasedLineHeight(string: visiblePlants[0].description)
     }
     
     // MARK: - Constraints
     
     private func setConstraints() {
+        // Set custom margins
         view.directionalLayoutMargins = .customMargins
         
-        // Enable autolayout for every view
-        for view in autoLayoutViews {
-            view.translatesAutoresizingMaskIntoConstraints = false
-        }
-        
-        // Activate constraints
-        NSLayoutConstraint.activate([
+        let constraints = [
             // Menu button
             menuButton.widthAnchor.constraint(equalToConstant: 50),
             menuButton.heightAnchor.constraint(equalToConstant: 50),
@@ -192,7 +155,15 @@ class MainViewController: UIViewController, UIScrollViewDelegate, PlantCardViewD
             descriptionBodyLabel.topAnchor.constraint(equalToSystemSpacingBelow: descriptionLabel.bottomAnchor, multiplier: 1),
             descriptionBodyLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             descriptionBodyLabel.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
-        ])
+        ]
+        
+        // Enable autolayout
+        for constraint in constraints {
+            (constraint.firstItem as? UIView)?.translatesAutoresizingMaskIntoConstraints = false
+        }
+        
+        // Activate constraints
+        NSLayoutConstraint.activate(constraints)
     }
     
     // MARK: - Delegate Methods
