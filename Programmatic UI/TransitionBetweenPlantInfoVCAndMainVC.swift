@@ -86,19 +86,22 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
             containerView.addSubview(maskingBackgroundView)
             plantInfoVC.view.mask = maskingBackgroundView
             
+            // Set sliding distance of bottom background view
+            slidingDistance = mainVC.descriptionLabel.convertOriginTo(coordinateSpaceOf: plantInfoVC.bottomBackgroundView).y - plantInfoVC.bottomBackgroundView.frame.origin.y
+            
             // Create copy of bottomBackgroundView
-            bottomBackgroundViewCopy.frame = convertFrameOf(plantInfoVC.bottomBackgroundView)
-            slidingDistance = mainVC.descriptionLabel.frame.origin.y - plantInfoVC.bottomBackgroundView.frame.origin.y
-            bottomBackgroundViewCopy.frame = bottomBackgroundViewCopy.frame.offsetBy(dx: 0, dy: slidingDistance)
             bottomBackgroundViewCopy.backgroundColor = plantInfoVC.bottomBackgroundView.backgroundColor
             bottomBackgroundViewCopy.layer.cornerRadius = plantInfoVC.bottomBackgroundView.layer.cornerRadius
+            
             cardView.insertSubview(bottomBackgroundViewCopy, belowSubview: cardView.plantImage)
+            bottomBackgroundViewCopy.frame = plantInfoVC.bottomBackgroundView.convertFrameTo(coordinateSpaceOf: cardView.backgroundView)
+            bottomBackgroundViewCopy.frame.origin.y = mainVC.descriptionLabel.convertOriginTo(coordinateSpaceOf: bottomBackgroundViewCopy).y
             
             // Create copy of mainVC description labels
-            copyLabel(to: descriptionLabelCopy, from: mainVC.descriptionLabel)
             containerView.addSubview(descriptionLabelCopy)
-            copyLabel(to: descriptionBodyLabelCopy, from: mainVC.descriptionBodyLabel)
+            copyLabel(to: descriptionLabelCopy, from: mainVC.descriptionLabel)
             containerView.addSubview(descriptionBodyLabelCopy)
+            copyLabel(to: descriptionBodyLabelCopy, from: mainVC.descriptionBodyLabel)
             
             // Create copy of plantInfoVC bottom labels
             slidingLabels = [
@@ -106,11 +109,11 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
                 plantInfoVC.descriptionBodyLabel,
                 plantInfoVC.detailsLabel,
                 plantInfoVC.detailsBodyLabel
-            ].map { (labelCounterpart) -> UILabel in
-                let newLabel = UILabel()
-                copyLabel(to: newLabel, from: labelCounterpart)
-                containerView.addSubview(newLabel)
-                return newLabel
+                ].map { (labelCounterpart) -> UILabel in
+                    let newLabel = UILabel()
+                    containerView.addSubview(newLabel)
+                    copyLabel(to: newLabel, from: labelCounterpart)
+                    return newLabel
             }
             
             // Set up sliding labels
@@ -189,9 +192,9 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
     }
     
     private func presentMainViews() {
-        bottomBackgroundViewCopy.transform = .init(translationX: 0, y: plantInfoVC.bottomBackgroundView.frame.origin.y - mainVC.descriptionLabel.frame.origin.y)
+        bottomBackgroundViewCopy.transform = .init(translationX: 0, y: -slidingDistance)
         
-        backgroundViewCopy.frame = convertFrameOf(plantInfoVC.backgroundView)
+        backgroundViewCopy.frame = plantInfoVC.backgroundView.convertFrameTo(coordinateSpaceOf: backgroundViewCopy)
         backgroundViewCopy.layer.cornerRadius = plantInfoVC.backgroundView.layer.cornerRadius
         
         maskingBackgroundView.frame = plantInfoVC.backgroundView.frame
@@ -201,7 +204,7 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         translateWithBackground(cardView.fromLabel)
         translateWithBackground(cardView.priceLabel)
         translateWithBackground(cardView.requirementsBar)
-                
+        
         translateAndScale(from: cardView.nameLabel, to: plantInfoVC.nameLabel)
         translateAndScale(from: cardView.categoryLabel, to: plantInfoVC.categoryLabel)
         translateAndScale(from: cardView.plantImage, to: plantInfoVC.plantImageView)
@@ -239,7 +242,7 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         
         maskingBackgroundView.frame = cardView.convert(cardView.backgroundView.frame, to: plantInfoVC.view.coordinateSpace)
         maskingBackgroundView.layer.cornerRadius = cardView.backgroundView.layer.cornerRadius
-                
+        
         cardView.fromLabel.transform = .identity
         cardView.priceLabel.transform = .identity
         cardView.requirementsBar.transform = .identity
@@ -250,10 +253,9 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         cardView.categoryLabel.transform = .identity
         cardView.plantImage.transform = .identity
         cardView.addToCartButton.transform = .identity
-                
+        
         for label in slidingLabels {
             label.transform = CGAffineTransform.identity.translatedBy(x: 0, y: slidingDistance)
-//            label.transform = .init(translationX: 0, y: slidingDistance)
         }
     }
     
@@ -283,16 +285,11 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         }
     }
     
-    private func convertFrameOf(_ view: UIView) -> CGRect {
-        return plantInfoVC.view.convert(view.frame, to: cardView)
-    }
-    
-    private func convertCenterOf(_ view: UIView) -> CGPoint {
-        return plantInfoVC.view.convert(view.center, to: cardView)
-    }
-    
     private func translateAndScale(from fromView: UIView, to toView: UIView) {
-        let translate = (x: convertCenterOf(toView).x - fromView.center.x, y: convertCenterOf(toView).y - fromView.center.y)
+        let translate = (
+            x: toView.convertCenterTo(coordinateSpaceOf: fromView).x - fromView.center.x,
+            y: toView.convertCenterTo(coordinateSpaceOf: fromView).y - fromView.center.y
+        )
         let scale = toView.bounds.width / fromView.bounds.width
         fromView.transform = CGAffineTransform(translationX: translate.x, y: translate.y).scaledBy(x: scale, y: scale)
     }
@@ -309,7 +306,7 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         
         let newCenterDistanceX = oldCenterDistanceX * scaleX
         let newCenterDistanceY = oldCenterDistanceY * scaleY
-        let newBackgroundViewCenter = convertCenterOf(plantInfoVC.backgroundView)
+        let newBackgroundViewCenter = plantInfoVC.backgroundView.convertCenterTo(coordinateSpaceOf: view)
         
         let newViewCenter = CGPoint(x: newBackgroundViewCenter.x + newCenterDistanceX, y: newBackgroundViewCenter.y + newCenterDistanceY)
         
@@ -328,7 +325,21 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         } else {
             to.attributedText = from.attributedText
         }
-        to.frame = from.frame
+        to.frame = from.convertFrameTo(coordinateSpaceOf: to)
     }
     
+}
+
+extension UIView {
+    func convertFrameTo(coordinateSpaceOf view: UIView) -> CGRect {
+        return self.superview!.convert(self.frame, to: view.superview!.coordinateSpace)
+    }
+    
+    func convertOriginTo(coordinateSpaceOf view: UIView) -> CGPoint {
+        return self.superview!.convert(self.frame.origin, to: view.superview!.coordinateSpace)
+    }
+    
+    func convertCenterTo(coordinateSpaceOf view: UIView) -> CGPoint {
+        return self.superview!.convert(self.center, to: view.superview!.coordinateSpace)
+    }
 }
