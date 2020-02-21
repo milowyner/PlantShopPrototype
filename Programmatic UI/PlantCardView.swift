@@ -38,14 +38,8 @@ class PlantCardView: UIButton {
             trailing: horizontalSpacingConstant * 0.75 * 0.75
         )
         
-        setupBackgroundView()
-        setupRequirementsBar()
-        setupPlantImage(with: plant.image)
-        setupFromLabel()
-        setupPriceLabel(with: plant.price)
-        setupCategoryLabel(with: plant.category.rawValue)
-        setupNameLabel(with: plant.name)
-        setupAddToCartButton()
+        setUpViews()
+        setUpConstraints()
         
         translatesAutoresizingMaskIntoConstraints = false
         widthAnchor.constraint(equalToConstant: PlantCardView.cardWidth).isActive = true
@@ -58,127 +52,119 @@ class PlantCardView: UIButton {
     
     // MARK: - Set up subviews
     
-    private func setupBackgroundView() {
-        backgroundView.backgroundColor = .plantBackground
-        backgroundView.layer.cornerRadius = 14
-        backgroundView.addTarget(self, action: #selector(backgroundPressed(_:)), for: .touchUpInside)
-        
-        addSubview(backgroundView)
-        
-        // Set constraints
+    private func setUpViews() {
+        setUpBackgroundView()
+        setUpRequirementsBar()
+        setUpPlantImage(with: plant.image)
+        setUpFromLabel()
+        setUpPriceLabel(with: plant.price)
+        setUpCategoryLabel(with: plant.category.rawValue)
+        setUpNameLabel(with: plant.name)
+        setUpAddToCartButton()
+    }
+    
+    private func setUpConstraints() {
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         backgroundView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -addToCartButton.diameter / 2).isActive = true
         backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-    }
-    
-    private func setupFromLabel() {
-        fromLabel.text = "FROM"
-        fromLabel.textColor = UIColor.lightGreenText
-        fromLabel.font = getScaledFont(for: .camptonBold, size: .label)
         
-        addSubview(fromLabel)
-        
-        // Set constraints
         fromLabel.translatesAutoresizingMaskIntoConstraints = false
         fromLabel.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor).isActive = true
         fromLabel.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor).isActive = true
-    }
-    
-    private func setupPriceLabel(with price: Int) {
-        priceLabel.text = "$\(price)"
-        priceLabel.textColor = .white
-        priceLabel.font = getScaledFont(for: .regular, size: .info)
         
-        addSubview(priceLabel)
-        
-        // Set constraints
         priceLabel.translatesAutoresizingMaskIntoConstraints = false
         priceLabel.topAnchor.constraint(equalTo: fromLabel.bottomAnchor).isActive = true
         priceLabel.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor).isActive = true
-    }
-    
-    private func setupPlantImage(with image: UIImage) {
-        plantImage.image = image
-        plantImage.contentMode = .scaleAspectFit
         
-        addSubview(plantImage)
-        
-        // Set constraints
         plantImage.translatesAutoresizingMaskIntoConstraints = false
         plantImage.topAnchor.constraint(equalTo: topAnchor).isActive = true
         plantImage.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         plantImage.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         plantImage.bottomAnchor.constraint(equalTo: centerYAnchor, constant: 60).isActive = true
-    }
-    
-    private func setupCategoryLabel(with category: String) {
-        categoryLabel.text = category.uppercased()
-        categoryLabel.textColor = UIColor.lightGreenText
-        categoryLabel.font = getScaledFont(for: .bold, size: .label)
         
-        addSubview(categoryLabel)
-        
-        // Set constraints
         categoryLabel.translatesAutoresizingMaskIntoConstraints = false
         categoryLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
-    }
-    
-    private func setupNameLabel(with name: String) {
-        nameLabel.text = name
-        nameLabel.textColor = .white
-        nameLabel.font = getScaledFont(for: .bold, size: .info)
         
-        addSubview(nameLabel)
-        
-        // Set constraints
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.topAnchor.constraint(equalToSystemSpacingBelow: categoryLabel.bottomAnchor, multiplier: 0.5).isActive = true
         nameLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
         nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: layoutMarginsGuide.trailingAnchor).isActive = true
         requirementsBar.topAnchor.constraint(equalToSystemSpacingBelow: nameLabel.bottomAnchor, multiplier: 1).isActive = true
         nameLabel.adjustsFontSizeToFitWidth = true
-    }
-    
-    private func setupRequirementsBar() {
-        requirementsBar.image = UIImage(named: "requirements-bar.png")
-        requirementsBar.contentMode = .scaleAspectFit
         
-        addSubview(requirementsBar)
-        
-        // Set constraints
         requirementsBar.translatesAutoresizingMaskIntoConstraints = false
         requirementsBar.heightAnchor.constraint(equalToConstant: 35 * spacingMultiplier).isActive = true
         requirementsBar.widthAnchor.constraint(equalToConstant: 150 * spacingMultiplier).isActive = true
         requirementsBar.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor).isActive = true
         requirementsBar.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
-    }
-    
-    private func setupAddToCartButton() {
-        addSubview(addToCartButton)
         
-        // Set constraints
         addToCartButton.translatesAutoresizingMaskIntoConstraints = false
         addToCartButton.centerYAnchor.constraint(equalTo: backgroundView.bottomAnchor).isActive = true
         addToCartButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     }
     
+    private func setUpBackgroundView() {
+        backgroundView.backgroundColor = .plantBackground
+        backgroundView.layer.cornerRadius = 14
+        backgroundView.addTarget(self, action: #selector(backgroundPressed(_:)), for: .touchUpInside)
+        
+        addSubview(backgroundView)
+    }
+    
+    private func setUpFromLabel() {
+        fromLabel.text = "FROM"
+        fromLabel.textColor = UIColor.lightGreenText
+        fromLabel.font = getScaledFont(for: .camptonBold, size: .label)
+        
+        addSubview(fromLabel)
+    }
+    
+    private func setUpPriceLabel(with price: Int) {
+        priceLabel.text = "$\(price)"
+        priceLabel.textColor = .white
+        priceLabel.font = getScaledFont(for: .regular, size: .info)
+        
+        addSubview(priceLabel)
+    }
+    
+    private func setUpPlantImage(with image: UIImage) {
+        plantImage.image = image
+        plantImage.contentMode = .scaleAspectFit
+        
+        addSubview(plantImage)
+    }
+    
+    private func setUpCategoryLabel(with category: String) {
+        categoryLabel.text = category.uppercased()
+        categoryLabel.textColor = UIColor.lightGreenText
+        categoryLabel.font = getScaledFont(for: .bold, size: .label)
+        
+        addSubview(categoryLabel)
+    }
+    
+    private func setUpNameLabel(with name: String) {
+        nameLabel.text = name
+        nameLabel.textColor = .white
+        nameLabel.font = getScaledFont(for: .bold, size: .info)
+        
+        addSubview(nameLabel)
+    }
+    
+    private func setUpRequirementsBar() {
+        requirementsBar.image = UIImage(named: "requirements-bar.png")
+        requirementsBar.contentMode = .scaleAspectFit
+        
+        addSubview(requirementsBar)
+    }
+    
+    private func setUpAddToCartButton() {
+        addSubview(addToCartButton)
+    }
+    
     // MARK: - Actions
-    
-//    @objc func addToCartButtonTouchDown() {
-//        UIView.animate(withDuration: 0.1, animations: {
-//            self.addToCartButton.transform = self.addToCartButton.transform.scaledBy(x: 1.3, y: 1.3)
-//        })
-//    }
-//
-//    @objc func addToCartButtonTouchUp() {
-//        print(#function)
-//        UIView.animate(withDuration: 0.2, animations: {
-//            self.addToCartButton.transform = CGAffineTransform.identity
-//        })
-//    }
-    
+        
     @objc func backgroundPressed(_ sender: UIButton) {
         delegate?.plantCardPressed(self)
     }
