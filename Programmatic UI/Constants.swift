@@ -8,9 +8,6 @@
 
 import UIKit
 
-let spacingConstant: CGFloat = 40
-let smallerSpacingConstant: CGFloat = 30
-
 enum FontName: String {
     static let regular = FontName.avertaRegular
     static let bold = FontName.camptonBold

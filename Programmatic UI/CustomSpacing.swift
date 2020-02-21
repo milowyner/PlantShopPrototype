@@ -12,6 +12,10 @@ fileprivate var safeAreaFrame: CGRect {
     return UIApplication.shared.windows[0].safeAreaLayoutGuide.layoutFrame
 }
 
+var spacingMultiplier: CGFloat {
+    return sqrt(safeAreaFrame.width * safeAreaFrame.height) / sqrt(375 * 734)
+}
+
 var verticalSpacingMultiplier: CGFloat {
     return safeAreaFrame.height / 734
 }

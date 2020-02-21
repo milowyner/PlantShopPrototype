@@ -19,8 +19,8 @@ class PlantCardView: UIButton {
     var requirementsBar = UIImageView()
     var addToCartButton = ShoppingCartButton(type: .add, tint: .systemBackground, background: .label)
     
-    static let cardWidth: CGFloat = 220
-    static let cardHeight: CGFloat = 355
+    static let cardWidth: CGFloat = 220 * spacingMultiplier
+    static let cardHeight: CGFloat = 355 * spacingMultiplier
     
     var plant: Plant!
     
@@ -30,7 +30,14 @@ class PlantCardView: UIButton {
         super.init(frame: CGRect.zero)
         
         self.plant = plant
-                
+        
+        directionalLayoutMargins = NSDirectionalEdgeInsets(
+            top: verticalSpacingConstant * 0.75,
+            leading: horizontalSpacingConstant * 0.75,
+            bottom: addToCartButton.diameter + verticalSpacingConstant * 0.25,
+            trailing: horizontalSpacingConstant * 0.75 * 0.75
+        )
+        
         setupBackgroundView()
         setupRequirementsBar()
         setupPlantImage(with: plant.image)
@@ -75,8 +82,8 @@ class PlantCardView: UIButton {
         
         // Set constraints
         fromLabel.translatesAutoresizingMaskIntoConstraints = false
-        fromLabel.topAnchor.constraint(equalTo: topAnchor, constant: smallerSpacingConstant).isActive = true
-        fromLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -smallerSpacingConstant * 0.75).isActive = true
+        fromLabel.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor).isActive = true
+        fromLabel.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor).isActive = true
     }
     
     private func setupPriceLabel(with price: Int) {
@@ -89,7 +96,7 @@ class PlantCardView: UIButton {
         // Set constraints
         priceLabel.translatesAutoresizingMaskIntoConstraints = false
         priceLabel.topAnchor.constraint(equalTo: fromLabel.bottomAnchor).isActive = true
-        priceLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -smallerSpacingConstant * 0.75).isActive = true
+        priceLabel.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor).isActive = true
     }
     
     private func setupPlantImage(with image: UIImage) {
@@ -115,9 +122,7 @@ class PlantCardView: UIButton {
         
         // Set constraints
         categoryLabel.translatesAutoresizingMaskIntoConstraints = false
-        categoryLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: smallerSpacingConstant).isActive = true
-
-        // Set constraints
+        categoryLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
     }
     
     private func setupNameLabel(with name: String) {
@@ -130,8 +135,8 @@ class PlantCardView: UIButton {
         // Set constraints
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.topAnchor.constraint(equalToSystemSpacingBelow: categoryLabel.bottomAnchor, multiplier: 0.5).isActive = true
-        nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: smallerSpacingConstant).isActive = true
-        nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -smallerSpacingConstant * 0.75).isActive = true
+        nameLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
+        nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: layoutMarginsGuide.trailingAnchor).isActive = true
         requirementsBar.topAnchor.constraint(equalToSystemSpacingBelow: nameLabel.bottomAnchor, multiplier: 1).isActive = true
         nameLabel.adjustsFontSizeToFitWidth = true
     }
@@ -144,10 +149,10 @@ class PlantCardView: UIButton {
         
         // Set constraints
         requirementsBar.translatesAutoresizingMaskIntoConstraints = false
-        requirementsBar.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        requirementsBar.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        requirementsBar.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -smallerSpacingConstant).isActive = true
-        requirementsBar.leadingAnchor.constraint(equalTo: leadingAnchor, constant: smallerSpacingConstant).isActive = true
+        requirementsBar.heightAnchor.constraint(equalToConstant: 35 * spacingMultiplier).isActive = true
+        requirementsBar.widthAnchor.constraint(equalToConstant: 150 * spacingMultiplier).isActive = true
+        requirementsBar.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor).isActive = true
+        requirementsBar.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
     }
     
     private func setupAddToCartButton() {
