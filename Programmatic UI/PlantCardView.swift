@@ -78,20 +78,14 @@ class PlantCardView: UIButton {
         priceLabel.topAnchor.constraint(equalTo: fromLabel.bottomAnchor).isActive = true
         priceLabel.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor).isActive = true
         
-        plantImage.translatesAutoresizingMaskIntoConstraints = false
-        plantImage.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        plantImage.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        plantImage.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        plantImage.bottomAnchor.constraint(equalTo: centerYAnchor, constant: 60).isActive = true
-        
         categoryLabel.translatesAutoresizingMaskIntoConstraints = false
         categoryLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
+        categoryLabel.bottomAnchor.constraint(equalTo: nameLabel.topAnchor).isActive = true
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.topAnchor.constraint(equalToSystemSpacingBelow: categoryLabel.bottomAnchor, multiplier: 0.5).isActive = true
         nameLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
         nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: layoutMarginsGuide.trailingAnchor).isActive = true
-        requirementsBar.topAnchor.constraint(equalToSystemSpacingBelow: nameLabel.bottomAnchor, multiplier: 1).isActive = true
+        nameLabel.bottomAnchor.constraint(equalTo: requirementsBar.topAnchor, constant: -verticalSpacingConstant * 0.15).isActive = true
         nameLabel.adjustsFontSizeToFitWidth = true
         
         requirementsBar.translatesAutoresizingMaskIntoConstraints = false
@@ -99,6 +93,12 @@ class PlantCardView: UIButton {
         requirementsBar.widthAnchor.constraint(equalToConstant: 150 * spacingMultiplier).isActive = true
         requirementsBar.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor).isActive = true
         requirementsBar.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
+        
+        plantImage.translatesAutoresizingMaskIntoConstraints = false
+        plantImage.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        plantImage.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        plantImage.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        plantImage.bottomAnchor.constraint(equalTo: categoryLabel.bottomAnchor).isActive = true
         
         addToCartButton.translatesAutoresizingMaskIntoConstraints = false
         addToCartButton.centerYAnchor.constraint(equalTo: backgroundView.bottomAnchor).isActive = true
