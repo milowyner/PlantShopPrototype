@@ -68,21 +68,21 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
             plantInfoVC.view.layoutIfNeeded()
             
             // Set card view's frame
-            cardView.frame = originalCardView.superview!.convert(originalCardView.frame, to: containerView.coordinateSpace)
+            cardView.frame = originalCardView.convertFrameTo(coordinateSpaceOf: cardView)
             cardView.layoutIfNeeded()
             
             // Create copy of plant card view's background view
-            backgroundViewCopy.frame = cardView.backgroundView.frame
+            cardView.insertSubview(backgroundViewCopy, at: 0)
+            backgroundViewCopy.frame = cardView.backgroundView.convertFrameTo(coordinateSpaceOf: backgroundViewCopy)
             backgroundViewCopy.backgroundColor = cardView.backgroundView.backgroundColor
             backgroundViewCopy.layer.cornerRadius = cardView.backgroundView.layer.cornerRadius
-            cardView.insertSubview(backgroundViewCopy, at: 0)
             cardView.backgroundView.isHidden = true
             
             // Masking
-            maskingBackgroundView.frame = cardView.convert(cardView.backgroundView.frame, to: plantInfoVC.view.coordinateSpace)
+            containerView.addSubview(maskingBackgroundView)
+            maskingBackgroundView.frame = cardView.backgroundView.convertFrameTo(coordinateSpaceOf: maskingBackgroundView)
             maskingBackgroundView.backgroundColor = .gray
             maskingBackgroundView.layer.cornerRadius = backgroundViewCopy.layer.cornerRadius
-            containerView.addSubview(maskingBackgroundView)
             plantInfoVC.view.mask = maskingBackgroundView
             
             // Set sliding distance of bottom background view
@@ -126,6 +126,12 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         for subview in plantInfoVC.view.subviews {
             subview.layer.opacity = 0
         }
+        for subview in plantInfoVC.verticalScrollView.subviews {
+            subview.layer.opacity = 0
+        }
+        // Unhide verticalScrollView
+        plantInfoVC.verticalScrollView.layer.opacity = 1
+        
         // Unhide top buttons to be masked
         plantInfoVC.shoppingCartButton.layer.opacity = 1
         plantInfoVC.backButton.layer.opacity = 1
@@ -196,7 +202,7 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         backgroundViewCopy.frame = plantInfoVC.backgroundView.convertFrameTo(coordinateSpaceOf: backgroundViewCopy)
         backgroundViewCopy.layer.cornerRadius = plantInfoVC.backgroundView.layer.cornerRadius
         
-        maskingBackgroundView.frame = plantInfoVC.backgroundView.frame
+        maskingBackgroundView.frame = plantInfoVC.backgroundView.convertFrameTo(coordinateSpaceOf: maskingBackgroundView)
         maskingBackgroundView.layer.cornerRadius = plantInfoVC.backgroundView.layer.cornerRadius
         
         cardView.requirementsBar.layer.opacity = 0
@@ -218,6 +224,9 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         for subview in plantInfoVC.view.subviews {
             subview.layer.opacity = 1
         }
+        for subview in plantInfoVC.verticalScrollView.subviews {
+            subview.layer.opacity = 1
+        }
         originalCardView.layer.opacity = 1
         
         for label in slidingLabels {
@@ -236,9 +245,10 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
         
         bottomBackgroundViewCopy.transform = .identity
         
-        backgroundViewCopy.frame = cardView.backgroundView.frame
+        backgroundViewCopy.frame = cardView.backgroundView.convertFrameTo(coordinateSpaceOf: backgroundViewCopy)
         backgroundViewCopy.layer.cornerRadius = cardView.backgroundView.layer.cornerRadius
         
+        maskingBackgroundView.frame = cardView.backgroundView.convertFrameTo(coordinateSpaceOf: maskingBackgroundView)
         maskingBackgroundView.frame = cardView.convert(cardView.backgroundView.frame, to: plantInfoVC.view.coordinateSpace)
         maskingBackgroundView.layer.cornerRadius = cardView.backgroundView.layer.cornerRadius
         
