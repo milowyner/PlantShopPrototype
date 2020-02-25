@@ -130,6 +130,7 @@ class PlantInfoViewController: UIViewController {
         // nameLabel
         nameLabel.textColor = .white
         nameLabel.font = getScaledFont(for: .bold, size: .title)
+        nameLabel.adjustsFontSizeToFitWidth = true
         view.addSubview(nameLabel)
     }
     
@@ -151,38 +152,38 @@ class PlantInfoViewController: UIViewController {
             shoppingCartButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             shoppingCartButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
 
-            categoryLabel.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: 20),
+            categoryLabel.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: verticalSpacingConstant / 2),
             categoryLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
                         
-            fromLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 30),
+            fromLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: verticalSpacingConstant * 3/4),
             fromLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             
             priceLabel.topAnchor.constraint(equalTo: fromLabel.bottomAnchor),
             priceLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             
-            sizesLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 20),
+            sizesLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: verticalSpacingConstant / 2),
             sizesLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             
             sizesInfoLabel.topAnchor.constraint(equalTo: sizesLabel.bottomAnchor),
             sizesInfoLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             
-            addToCartButton.topAnchor.constraint(equalTo: sizesInfoLabel.bottomAnchor, constant: 30),
+            addToCartButton.topAnchor.constraint(equalTo: sizesInfoLabel.bottomAnchor, constant: verticalSpacingConstant * 3/4),
             addToCartButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             
-            bottomBackgroundView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.centerYAnchor),
+            bottomBackgroundView.topAnchor.constraint(equalTo: addToCartButton.bottomAnchor, constant: verticalSpacingConstant),
             bottomBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -5),
             bottomBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 5),
             bottomBackgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            allToKnowLabel.topAnchor.constraint(equalTo: bottomBackgroundView.topAnchor, constant: 100),
+            allToKnowLabel.topAnchor.constraint(equalTo: bottomBackgroundView.topAnchor, constant: 90 * verticalSpacingMultiplier),
             allToKnowLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             allToKnowLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor),
             
-            descriptionBodyLabel.topAnchor.constraint(equalTo: allToKnowLabel.bottomAnchor, constant: 20),
+            descriptionBodyLabel.topAnchor.constraint(equalTo: allToKnowLabel.bottomAnchor, constant: verticalSpacingConstant / 2),
             descriptionBodyLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             descriptionBodyLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor),
             
-            detailsLabel.topAnchor.constraint(equalTo: descriptionBodyLabel.bottomAnchor, constant: 40),
+            detailsLabel.topAnchor.constraint(equalTo: descriptionBodyLabel.bottomAnchor, constant: 50 * verticalSpacingMultiplier),
             detailsLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             
             detailsBodyLabel.topAnchor.constraint(equalToSystemSpacingBelow: detailsLabel.bottomAnchor, multiplier: 1),
@@ -194,7 +195,8 @@ class PlantInfoViewController: UIViewController {
             plantImageView.bottomAnchor.constraint(equalTo: bottomBackgroundView.topAnchor, constant: 150),
             
             nameLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor),
-            nameLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor)
+            nameLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor)
         ])
     }
     
