@@ -68,7 +68,6 @@ class TransitionBetweenPlantInfoVCAndMainVC: NSObject, UIViewControllerAnimatedT
             plantInfoVC.view.layoutIfNeeded()
             
             // Set card view's frame
-            cardView.translatesAutoresizingMaskIntoConstraints = true
             cardView.frame = originalCardView.superview!.convert(originalCardView.frame, to: containerView.coordinateSpace)
             cardView.layoutIfNeeded()
             

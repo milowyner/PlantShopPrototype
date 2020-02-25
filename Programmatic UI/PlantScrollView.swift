@@ -35,11 +35,6 @@ class PlantScrollView: UIScrollView, PlantCardViewDelegate {
         super.init(coder: coder)
     }
     
-    func addPlant(_ plant: Plant) {
-        let cardView = PlantCardView(from: plant)
-        stackView.addArrangedSubview(cardView)
-    }
-    
     func clearPlants() {
         for subview in stackView.arrangedSubviews {
             stackView.removeArrangedSubview(subview)
@@ -50,6 +45,8 @@ class PlantScrollView: UIScrollView, PlantCardViewDelegate {
     func setPlants(_ plants: [Plant]) {
         let cardViews: [PlantCardView] = plants.map {
             let cardView = PlantCardView(from: $0)
+            cardView.widthAnchor.constraint(equalToConstant: PlantCardView.cardWidth).isActive = true
+            cardView.heightAnchor.constraint(equalToConstant: PlantCardView.cardHeight).isActive = true
             cardView.delegate = self
             return cardView
         }

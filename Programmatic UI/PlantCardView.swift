@@ -20,7 +20,7 @@ class PlantCardView: UIButton {
     var addToCartButton = ShoppingCartButton(type: .add, tint: .systemBackground, background: .label)
     
     static let cardWidth: CGFloat = 220 * spacingMultiplier
-    static let cardHeight: CGFloat = 355 * spacingMultiplier
+    static let cardHeight: CGFloat = 355 * spacingMultiplier + 25
     
     var plant: Plant!
     
@@ -40,10 +40,6 @@ class PlantCardView: UIButton {
         
         setUpViews()
         setUpConstraints()
-        
-        translatesAutoresizingMaskIntoConstraints = false
-        widthAnchor.constraint(equalToConstant: PlantCardView.cardWidth).isActive = true
-        heightAnchor.constraint(equalToConstant: PlantCardView.cardHeight + addToCartButton.diameter / 2).isActive = true
     }
     
     required init?(coder: NSCoder) {
